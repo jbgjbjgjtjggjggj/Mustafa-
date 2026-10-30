@@ -3,280 +3,323 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#090d14">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#090b10">
 <title>BATMAN PRO</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap');
 
-:root {
-  --bg:#090d14;
-  --panel:#101722;
-  --panel2:#141e2b;
-  --line:#202d3d;
-  --blue:#3988ff;
-  --blue2:#1764dc;
-  --text:#f1f5fb;
-  --muted:#8290a3;
-  --green:#36c98a;
+:root{
+ --bg:#090b10;--surface:#10141c;--surface2:#151b25;
+ --surface3:#1b2330;--line:#242d3b;--blue:#477ff5;
+ --blue2:#285fd1;--white:#f5f7fc;--muted:#8994a6;
+ --green:#54c69a;--gold:#d7b879;
 }
 *{box-sizing:border-box}
 body{
-  margin:0;background:var(--bg);color:var(--text);
-  font-family:'Cairo',sans-serif;min-height:100vh;
+ margin:0;background:var(--bg);color:var(--white);
+ font-family:'IBM Plex Sans Arabic',sans-serif;
+ min-height:100vh;
 }
 button,input,textarea{font:inherit}
 button{cursor:pointer}
-.app{display:flex;min-height:100vh}
+button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+.layout{min-height:100vh}
 .sidebar{
-  width:245px;position:fixed;right:0;top:0;bottom:0;
-  background:#0c121c;border-left:1px solid var(--line);
-  padding:25px 17px;display:flex;flex-direction:column;z-index:5;
+ position:fixed;right:0;top:0;bottom:0;width:255px;
+ background:#0d1118;border-left:1px solid var(--line);
+ padding:27px 19px;display:flex;flex-direction:column;z-index:10;
 }
-.brand{display:flex;align-items:center;gap:12px;padding:4px 8px 30px}
-.logo{
-  width:43px;height:43px;border-radius:13px;
-  display:grid;place-items:center;background:var(--blue);
-  color:white;font-size:22px;font-weight:900;
-  box-shadow:0 5px 22px #3988ff40;
+.brand{display:flex;align-items:center;gap:12px;padding:0 5px 37px}
+.brand-mark{
+ width:43px;height:43px;border-radius:13px;
+ display:grid;place-items:center;background:linear-gradient(145deg,#5b91ff,#2454bd);
+ box-shadow:0 8px 25px #326de944;color:white;font-size:24px;font-weight:700;
 }
-.brand-name{font-weight:900;font-size:19px;letter-spacing:1px}
-.brand-name small{display:block;color:var(--muted);font-size:9px;letter-spacing:3px}
-.nav-title{font-size:10px;color:#64748b;padding:10px 13px}
+.brand-name{font-size:19px;font-weight:700;letter-spacing:1.3px}
+.brand-name span{display:block;font-size:9px;color:#8290a7;letter-spacing:3px;font-weight:500}
+.nav-label{color:#657186;font-size:10px;padding:0 12px 12px}
 .nav-btn{
-  border:0;background:transparent;color:#9ba9ba;width:100%;
-  text-align:right;padding:12px 14px;border-radius:11px;
-  display:flex;align-items:center;gap:13px;margin:3px 0;
-  font-size:13px;transition:.2s;
+ display:flex;align-items:center;gap:13px;width:100%;border:0;
+ padding:12px 13px;border-radius:10px;background:transparent;
+ color:#9ca8b9;text-align:right;font-size:12px;margin:3px 0;
+ transition:.2s;
 }
-.nav-btn:hover,.nav-btn.active{background:#17263a;color:#fff}
-.nav-btn.active{box-shadow:inset -3px 0 var(--blue)}
-.nav-icon{font-size:17px;width:22px;text-align:center}
-.sidebar-bottom{margin-top:auto}
-.user-mini{
-  border-top:1px solid var(--line);padding:17px 5px 0;
-  display:flex;align-items:center;gap:10px;
-}
+.nav-btn:hover{background:#182131;color:white}
+.nav-btn.active{background:linear-gradient(100deg,#1b2c49,#172237);color:#fff;box-shadow:inset -2px 0 var(--blue)}
+.nav-icon{width:21px;height:21px;display:grid;place-items:center;color:inherit}
+.nav-icon svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.sidebar-footer{margin-top:auto;border-top:1px solid var(--line);padding-top:17px}
+.mini-profile{display:flex;align-items:center;gap:11px;padding:5px}
 .avatar{
-  width:38px;height:38px;border-radius:12px;
-  background:#1c3557;color:#83b8ff;display:grid;place-items:center;font-weight:900;
+ width:39px;height:39px;border-radius:12px;display:grid;place-items:center;
+ background:linear-gradient(145deg,#243b60,#17243a);color:#a9c9ff;font-weight:700;
 }
-.user-mini b{font-size:12px}.user-mini small{display:block;color:var(--muted);font-size:10px}
-main{margin-right:245px;width:calc(100% - 245px);padding:30px 38px 55px;max-width:1500px}
-.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:32px}
-.greeting small{color:var(--muted);font-size:12px}
-.greeting h1{font-size:23px;margin:3px 0;font-weight:800}
-.top-actions{display:flex;gap:10px;align-items:center}
-.icon-btn{
-  background:var(--panel);border:1px solid var(--line);color:white;
-  width:42px;height:42px;border-radius:12px;font-size:17px;
+.mini-profile strong{font-size:11px;display:block}
+.mini-profile small{font-size:9px;color:var(--muted)}
+.main{margin-right:255px;padding:29px 38px 55px;max-width:1600px}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px}
+.eyebrow{font-size:10px;color:var(--muted)}
+.welcome{font-size:23px;font-weight:700;margin:3px 0 0}
+.top-actions{display:flex;align-items:center;gap:10px}
+.date-pill,.icon-button{
+ background:var(--surface);border:1px solid var(--line);color:#b9c4d4;
+ border-radius:10px;padding:10px 13px;font-size:11px;
 }
-.page{display:none}.page.active{display:block}
-.section-head{display:flex;justify-content:space-between;align-items:center;margin:28px 0 15px}
-.section-head h2{font-size:16px;margin:0}
-.section-head p{font-size:11px;color:var(--muted);margin:3px 0}
-.primary{
-  background:var(--blue);color:white;border:0;border-radius:10px;
-  padding:10px 17px;font-size:12px;font-weight:700;
+.icon-button{width:40px;height:40px;padding:0;font-size:16px}
+.page{display:none;animation:appear .3s ease}
+.page.active{display:block}
+@keyframes appear{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.hero{
+ position:relative;overflow:hidden;border:1px solid #293d5c;
+ border-radius:19px;padding:27px 29px;
+ background:linear-gradient(110deg,#172944 0%,#142238 48%,#111923 100%);
+ min-height:195px;display:flex;align-items:center;justify-content:space-between;
 }
-.primary:hover{background:var(--blue2)}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.hero:before{
+ content:"";position:absolute;width:290px;height:290px;border-radius:50%;
+ background:#477ff5;filter:blur(100px);opacity:.15;left:8%;top:-150px;
+}
+.hero-content{position:relative;z-index:1}
+.hero-tag{font-size:10px;color:#a9c9ff;letter-spacing:1px}
+.hero h2{font-size:23px;margin:9px 0 5px}
+.hero p{font-size:11px;color:#b5c3d8;margin:0}
+.hero button{margin-top:19px;background:#477ff5;color:white;border:0;border-radius:9px;padding:10px 18px;font-size:11px;font-weight:600}
+.hero-emblem{
+ width:115px;height:115px;border-radius:50%;border:1px solid #5276a855;
+ display:grid;place-items:center;position:relative;margin-left:3%;
+ background:radial-gradient(circle,#29487555,#18263b33 65%,transparent 66%);
+}
+.hero-emblem span{font-size:51px;color:#a6c7ff;text-shadow:0 0 25px #6098ff88}
+.section-head{display:flex;justify-content:space-between;align-items:center;margin:27px 0 14px}
+.section-head h3{font-size:14px;margin:0;font-weight:600}
+.section-head p{font-size:10px;color:var(--muted);margin:4px 0 0}
+.section-link{border:0;background:none;color:#83adff;font-size:10px}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}
 .stat{
-  background:var(--panel);border:1px solid var(--line);
-  border-radius:15px;padding:18px;min-height:120px;
+ background:var(--surface);border:1px solid var(--line);
+ border-radius:14px;padding:16px 17px;min-height:111px;
 }
-.stat-top{display:flex;justify-content:space-between;color:var(--muted);font-size:11px}
-.stat-icon{width:32px;height:32px;border-radius:10px;background:#1b2e48;display:grid;place-items:center}
-.stat strong{display:block;font-size:25px;margin-top:9px}
-.stat small{font-size:10px;color:var(--muted)}
-.content-grid{display:grid;grid-template-columns:1.35fr 1fr;gap:16px;margin-top:20px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px;min-width:0}
-.card-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:17px}
-.card-title h3{font-size:14px;margin:0}
-.card-title span{font-size:10px;color:var(--muted)}
-.task-row{
-  display:flex;align-items:center;gap:11px;padding:12px 0;
-  border-bottom:1px solid #202b38;
+.stat-top{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:10px}
+.stat-icon{
+ width:32px;height:32px;border-radius:10px;background:#1b2b43;
+ display:grid;place-items:center;color:#8eb5ff;font-size:15px;
 }
-.task-row:last-child{border:0}
-.task-check{width:19px;height:19px;accent-color:var(--blue)}
+.stat strong{display:block;font-size:24px;font-weight:600;margin-top:9px;line-height:1.3}
+.stat small{color:#718096;font-size:9px}
+.dashboard-grid{display:grid;grid-template-columns:1.35fr 1fr;gap:15px;margin-top:17px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:15px;padding:19px;min-width:0}
+.panel-heading{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}
+.panel-heading strong{font-size:12px;font-weight:600}
+.panel-heading small{font-size:9px;color:var(--muted)}
+.task-row{display:flex;align-items:center;gap:11px;padding:12px 0;border-bottom:1px solid #202833}
+.task-row:last-child{border-bottom:0}
+.task-check{accent-color:var(--blue);width:16px;height:16px}
 .task-info{flex:1;min-width:0}
-.task-info b{font-size:12px;display:block;overflow:hidden;text-overflow:ellipsis}
-.task-info small{color:var(--muted);font-size:10px}
-.task-row.done b{text-decoration:line-through;color:#748194}
-.delete{border:0;background:transparent;color:#748194;font-size:16px}
-.empty{text-align:center;padding:25px;color:var(--muted);font-size:12px}
-.quick-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.task-info b{font-size:11px;display:block;overflow:hidden;text-overflow:ellipsis}
+.task-info small{font-size:9px;color:var(--muted)}
+.task-row.done .task-info b{text-decoration:line-through;color:#718096}
+.delete{border:0;background:transparent;color:#758197;font-size:17px}
+.empty{text-align:center;padding:24px 10px;color:#778398;font-size:11px}
+.progress-wrap{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin:17px 0 9px}
+.progress{height:6px;border-radius:9px;background:#252f3d;overflow:hidden}
+.progress div{height:100%;width:0;background:linear-gradient(90deg,#3268d4,#75a6ff);border-radius:9px;transition:.3s}
+.quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
 .quick{
-  border:1px solid var(--line);background:var(--panel2);color:white;
-  border-radius:12px;padding:16px 12px;text-align:right;
+ background:#141b26;border:1px solid #263143;border-radius:11px;
+ padding:13px;text-align:right;color:white;transition:.2s;
 }
-.quick span{font-size:20px;display:block;margin-bottom:8px}
-.quick b{font-size:12px}.quick small{display:block;color:var(--muted);font-size:10px}
-.progress{height:7px;border-radius:9px;background:#253143;overflow:hidden;margin-top:12px}
-.progress div{height:100%;background:var(--blue);border-radius:9px;width:0;transition:.3s}
-.page-panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px}
-.form-row{display:flex;gap:10px;margin:15px 0}
-.field{
-  background:#0b121c;border:1px solid var(--line);color:white;
-  border-radius:10px;padding:12px;width:100%;outline:none;font-size:12px;
-}
-.field:focus{border-color:var(--blue)}
-textarea.field{min-height:110px;resize:vertical}
-.note-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin-top:18px}
-.note{
-  background:var(--panel2);border:1px solid var(--line);
-  border-radius:13px;padding:16px;min-height:120px;
-}
-.note h3{font-size:13px;margin:0 0 8px}
-.note p{font-size:11px;color:#a7b3c2;white-space:pre-wrap;overflow-wrap:anywhere}
-.timer-box{text-align:center;padding:35px 10px}
-.timer-display{font-size:65px;font-weight:800;direction:ltr;letter-spacing:2px}
-.timer-controls{display:flex;justify-content:center;gap:10px;margin-top:20px;flex-wrap:wrap}
-.profile{text-align:center;padding:35px 10px}
-.profile .avatar{width:75px;height:75px;border-radius:22px;margin:auto;font-size:25px}
-.profile h2{font-size:19px;margin-bottom:0}
-.profile p{color:var(--muted);font-size:12px}
-.bottom-nav{display:none}
-.toast{
-  position:fixed;bottom:25px;left:50%;transform:translateX(-50%);
-  background:#1c2a3c;border:1px solid #34465e;color:white;
-  padding:11px 18px;border-radius:11px;font-size:12px;
-  opacity:0;pointer-events:none;transition:.25s;z-index:20;
-}
+.quick:hover{border-color:#456cae;transform:translateY(-2px)}
+.quick-icon{font-size:19px;color:#8fb6ff;display:block;margin-bottom:7px}
+.quick b{display:block;font-size:10px}
+.quick small{font-size:9px;color:var(--muted)}
+.page-banner{padding:20px 0 18px}
+.page-banner h2{font-size:21px;margin:0 0 5px}
+.page-banner p{font-size:11px;color:var(--muted);margin:0}
+.workspace{background:var(--surface);border:1px solid var(--line);border-radius:15px;padding:20px}
+.field{width:100%;background:#0c1119;border:1px solid #283342;border-radius:9px;color:white;padding:12px;font-size:11px;outline:none}
+.field:focus{border-color:#477ff5}
+.form-row{display:flex;gap:9px;margin-bottom:17px}
+.primary{border:0;border-radius:9px;background:var(--blue);color:white;padding:10px 17px;font-size:11px;font-weight:600;white-space:nowrap}
+.primary:hover{background:#326bdc}
+.note-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:15px}
+.note-card{background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:15px;min-height:120px}
+.note-card h4{font-size:12px;margin:0 0 9px}
+.note-card p{font-size:10px;color:#aab5c4;white-space:pre-wrap;overflow-wrap:anywhere}
+.timer-panel{text-align:center;padding:35px 15px}
+.timer-label{font-size:11px;color:var(--muted)}
+.timer-display{font-size:66px;font-weight:600;direction:ltr;letter-spacing:2px;margin:8px 0 18px}
+.timer-actions{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin:10px 0}
+.timer-actions button{border:1px solid var(--line);background:var(--surface2);color:#d6dfeb;border-radius:9px;padding:10px 16px;font-size:11px}
+.timer-actions .primary{background:var(--blue);border:0}
+.profile-card{text-align:center;padding:35px}
+.profile-card .avatar{width:76px;height:76px;margin:auto;border-radius:22px;font-size:25px}
+.profile-card h2{font-size:18px;margin:13px 0 2px}
+.profile-card p{font-size:10px;color:var(--muted)}
+.toast{position:fixed;bottom:25px;left:50%;transform:translateX(-50%);background:#1c2b40;border:1px solid #3a5274;color:white;padding:11px 17px;border-radius:10px;font-size:11px;opacity:0;transition:.2s;pointer-events:none;z-index:30}
 .toast.show{opacity:1}
-@media(max-width:900px){
-  .sidebar{width:205px}main{margin-right:205px;width:calc(100% - 205px);padding:25px 22px}
-  .stats{grid-template-columns:repeat(2,1fr)}
+.bottom-nav{display:none}
+@media(max-width:1000px){
+ .sidebar{width:220px}.main{margin-right:220px;padding:25px 22px}
+ .stats{grid-template-columns:repeat(2,1fr)}
 }
 @media(max-width:650px){
-  .sidebar{display:none}
-  main{margin:0;width:100%;padding:22px 16px 100px}
-  .topbar{margin-bottom:23px}
-  .greeting h1{font-size:19px}
-  .content-grid{grid-template-columns:1fr}
-  .note-grid{grid-template-columns:1fr 1fr}
-  .bottom-nav{
-    display:flex;position:fixed;bottom:0;right:0;left:0;
-    background:#0d141f;border-top:1px solid var(--line);
-    padding:8px 5px calc(8px + env(safe-area-inset-bottom));
-    justify-content:space-around;z-index:10;
-  }
-  .bottom-nav .nav-btn{
-    width:auto;display:flex;flex-direction:column;gap:2px;
-    padding:5px 10px;margin:0;font-size:9px;text-align:center;
-  }
-  .bottom-nav .nav-icon{font-size:18px}
-  .bottom-nav .nav-btn.active{box-shadow:none;color:#69a7ff;background:transparent}
-  .timer-display{font-size:52px}
+ .sidebar{display:none}
+ .main{margin:0;padding:21px 15px 100px}
+ .topbar{margin-bottom:21px}
+ .welcome{font-size:19px}
+ .date-pill{display:none}
+ .hero{padding:21px 19px;min-height:175px}
+ .hero h2{font-size:19px}
+ .hero p{max-width:230px;line-height:1.8}
+ .hero-emblem{width:73px;height:73px;flex-shrink:0}
+ .hero-emblem span{font-size:34px}
+ .stats{gap:9px}
+ .stat{padding:13px;min-height:100px}
+ .stat strong{font-size:21px}
+ .dashboard-grid{grid-template-columns:1fr;gap:12px}
+ .note-grid{grid-template-columns:1fr 1fr}
+ .bottom-nav{
+  display:flex;position:fixed;right:0;left:0;bottom:0;z-index:15;
+  justify-content:space-around;background:#0d121b;
+  border-top:1px solid var(--line);
+  padding:8px 3px calc(8px + env(safe-area-inset-bottom));
+ }
+ .bottom-nav .nav-btn{width:auto;display:flex;flex-direction:column;gap:3px;padding:5px 8px;margin:0;font-size:9px;text-align:center}
+ .bottom-nav .nav-icon{width:auto}
+ .bottom-nav .nav-btn.active{background:transparent;box-shadow:none;color:#8bb5ff}
+ .timer-display{font-size:52px}
 }
-@media(max-width:370px){.stats{gap:8px}.stat{padding:12px}.note-grid{grid-template-columns:1fr}}
+@media(max-width:370px){.hero-emblem{display:none}.note-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<div class="app">
+<div class="layout">
 <aside class="sidebar">
-  <div class="brand"><div class="logo">B</div><div class="brand-name">BATMAN<small>STUDY & PRODUCTIVITY</small></div></div>
-  <div class="nav-title">القائمة الرئيسية</div>
-  <nav id="sideNav">
-    <button class="nav-btn active" data-page="home"><span class="nav-icon">⌂</span>الرئيسية</button>
-    <button class="nav-btn" data-page="tasks"><span class="nav-icon">☑</span>المهام</button>
-    <button class="nav-btn" data-page="notes"><span class="nav-icon">▤</span>الملاحظات</button>
-    <button class="nav-btn" data-page="timer"><span class="nav-icon">◷</span>مؤقت الدراسة</button>
-    <button class="nav-btn" data-page="profile"><span class="nav-icon">♙</span>ملفي الشخصي</button>
-  </nav>
-  <div class="sidebar-bottom"><div class="user-mini"><div class="avatar">B</div><div><b>مستخدم باتمان</b><small>نسخة تجريبية</small></div></div></div>
+ <div class="brand">
+  <div class="brand-mark">B</div>
+  <div class="brand-name">BATMAN<span>PERSONAL SPACE</span></div>
+ </div>
+ <div class="nav-label">مساحة العمل</div>
+ <nav id="desktopNav">
+  <button class="nav-btn active" data-page="home"><span class="nav-icon">⌂</span>الرئيسية</button>
+  <button class="nav-btn" data-page="tasks"><span class="nav-icon">☷</span>المهام اليومية</button>
+  <button class="nav-btn" data-page="notes"><span class="nav-icon">▤</span>الملاحظات</button>
+  <button class="nav-btn" data-page="timer"><span class="nav-icon">◷</span>جلسة التركيز</button>
+  <button class="nav-btn" data-page="profile"><span class="nav-icon">♙</span>الملف الشخصي</button>
+ </nav>
+ <div class="sidebar-footer">
+  <div class="mini-profile"><div class="avatar">B</div><div><strong>مساحة باتمان</strong><small>نسخة تجريبية</small></div></div>
+ </div>
 </aside>
 
-<main>
-<header class="topbar">
-  <div class="greeting"><small id="today"></small><h1 id="welcome">مرحباً بك 👋</h1></div>
-  <div class="top-actions"><button class="icon-btn" onclick="showToast('ستتوفر الإشعارات قريباً')">♧</button><button class="icon-btn" onclick="go('profile')">♙</button></div>
-</header>
+<main class="main">
+ <header class="topbar">
+  <div>
+   <div class="eyebrow" id="today"></div>
+   <h1 class="welcome" id="welcome">أهلاً بك في مساحتك 👋</h1>
+  </div>
+  <div class="top-actions">
+   <span class="date-pill">BATMAN PRO</span>
+   <button class="icon-button" onclick="go('profile')" aria-label="الملف الشخصي">♙</button>
+  </div>
+ </header>
 
-<section class="page active" id="home">
-  <div class="section-head"><div><h2>نظرة عامة</h2><p>تابع تقدمك وأنجز أهدافك اليومية</p></div></div>
+ <section class="page active" id="home">
+  <div class="hero">
+   <div class="hero-content">
+    <div class="hero-tag">YOUR PERSONAL PRODUCTIVITY SPACE</div>
+    <h2>كل إنجاز يبدأ بخطوة.</h2>
+    <p>نظّم وقتك، رتّب أفكارك، واصنع تقدّمك كل يوم.</p>
+    <button onclick="go('tasks')">ابدأ تنظيم يومك ←</button>
+   </div>
+   <div class="hero-emblem"><span>✦</span></div>
+  </div>
+
+  <div class="section-head"><div><h3>ملخص نشاطك</h3><p>نظرة سريعة على تقدّمك</p></div></div>
   <div class="stats">
-    <div class="stat"><div class="stat-top"><span>إجمالي المهام</span><span class="stat-icon">☑</span></div><strong id="totalTasks">0</strong><small>مهمة مسجلة</small></div>
-    <div class="stat"><div class="stat-top"><span>المهام المكتملة</span><span class="stat-icon">✓</span></div><strong id="doneTasks">0</strong><small>إنجازاتك</small></div>
-    <div class="stat"><div class="stat-top"><span>نقاطك</span><span class="stat-icon">✦</span></div><strong id="points">0</strong><small>نقطة مكتسبة</small></div>
-    <div class="stat"><div class="stat-top"><span>الملاحظات</span><span class="stat-icon">▤</span></div><strong id="totalNotes">0</strong><small>ملاحظة محفوظة</small></div>
+   <div class="stat"><div class="stat-top"><span>إجمالي المهام</span><span class="stat-icon">☷</span></div><strong id="totalTasks">0</strong><small>مهمة في قائمتك</small></div>
+   <div class="stat"><div class="stat-top"><span>المكتمل</span><span class="stat-icon">✓</span></div><strong id="doneTasks">0</strong><small>إنجاز تم تحقيقه</small></div>
+   <div class="stat"><div class="stat-top"><span>رصيد النقاط</span><span class="stat-icon">✦</span></div><strong id="points">0</strong><small>نقطة مكتسبة</small></div>
+   <div class="stat"><div class="stat-top"><span>الملاحظات</span><span class="stat-icon">▤</span></div><strong id="totalNotes">0</strong><small>ملاحظة محفوظة</small></div>
   </div>
-  <div class="content-grid">
-    <div class="card">
-      <div class="card-title"><h3>مهام اليوم</h3><span id="taskCount">0 مهام</span></div>
-      <div id="homeTasks"></div>
-      <button class="primary" onclick="go('tasks')">عرض جميع المهام</button>
-    </div>
-    <div class="card">
-      <div class="card-title"><h3>أدوات سريعة</h3><span>اختصارات</span></div>
-      <div class="quick-actions">
-        <button class="quick" onclick="go('tasks')"><span>☑</span><b>إضافة مهمة</b><small>نظّم يومك</small></button>
-        <button class="quick" onclick="go('notes')"><span>▤</span><b>ملاحظة جديدة</b><small>دوّن أفكارك</small></button>
-        <button class="quick" onclick="go('timer')"><span>◷</span><b>ابدأ الدراسة</b><small>ركّز بوقتك</small></button>
-        <button class="quick" onclick="go('profile')"><span>♙</span><b>ملفي الشخصي</b><small>إنجازاتك</small></button>
-      </div>
-      <div class="section-head"><h2>إنجاز المهام</h2><span id="percent">0%</span></div>
-      <div class="progress"><div id="progressBar"></div></div>
-    </div>
-  </div>
-</section>
 
-<section class="page" id="tasks">
-  <div class="section-head"><div><h2>إدارة المهام</h2><p>رتّب أولوياتك وتابع إنجازك</p></div></div>
-  <div class="page-panel">
-    <div class="form-row"><input id="taskInput" class="field" placeholder="اكتب المهمة التي تريد إنجازها..."><button class="primary" onclick="addTask()">إضافة</button></div>
-    <div id="allTasks"></div>
+  <div class="dashboard-grid">
+   <div class="panel">
+    <div class="panel-heading"><strong>قائمة المهام</strong><button class="section-link" onclick="go('tasks')">عرض الكل ←</button></div>
+    <div id="homeTasks"></div>
+    <div class="progress-wrap"><span>نسبة إنجاز المهام</span><b id="percent">0%</b></div>
+    <div class="progress"><div id="progressBar"></div></div>
+   </div>
+   <div class="panel">
+    <div class="panel-heading"><strong>اختصارات سريعة</strong><small>أدواتك اليومية</small></div>
+    <div class="quick-grid">
+     <button class="quick" onclick="go('tasks')"><span class="quick-icon">＋</span><b>إضافة مهمة</b><small>خطط لخطوتك القادمة</small></button>
+     <button class="quick" onclick="go('notes')"><span class="quick-icon">▤</span><b>ملاحظة جديدة</b><small>احفظ أفكارك</small></button>
+     <button class="quick" onclick="go('timer')"><span class="quick-icon">◷</span><b>جلسة تركيز</b><small>ابدأ وقتك الآن</small></button>
+     <button class="quick" onclick="go('profile')"><span class="quick-icon">♙</span><b>ملفي الشخصي</b><small>راجع إنجازاتك</small></button>
+    </div>
+   </div>
   </div>
-</section>
+ </section>
 
-<section class="page" id="notes">
-  <div class="section-head"><div><h2>ملاحظاتي</h2><p>مساحة خاصة لأفكارك وملاحظاتك</p></div></div>
-  <div class="page-panel">
-    <input id="noteTitle" class="field" placeholder="عنوان الملاحظة">
-    <textarea id="noteBody" class="field" style="margin-top:10px" placeholder="اكتب ملاحظتك هنا..."></textarea>
-    <button class="primary" onclick="addNote()">حفظ الملاحظة</button>
+ <section class="page" id="tasks">
+  <div class="page-banner"><h2>المهام اليومية</h2><p>حوّل خططك إلى خطوات واضحة قابلة للإنجاز.</p></div>
+  <div class="workspace">
+   <div class="form-row"><input id="taskInput" class="field" placeholder="ما الذي تريد إنجازه؟"><button class="primary" onclick="addTask()">＋ إضافة مهمة</button></div>
+   <div id="allTasks"></div>
+  </div>
+ </section>
+
+ <section class="page" id="notes">
+  <div class="page-banner"><h2>الملاحظات</h2><p>مكان يجمع أفكارك وملاحظاتك في مساحة واحدة.</p></div>
+  <div class="workspace">
+   <input id="noteTitle" class="field" placeholder="عنوان الملاحظة">
+   <textarea id="noteBody" class="field" style="margin-top:10px;min-height:115px" placeholder="اكتب أفكارك هنا..."></textarea>
+   <button class="primary" style="margin-top:10px" onclick="addNote()">حفظ الملاحظة</button>
   </div>
   <div class="note-grid" id="notesGrid"></div>
-</section>
+ </section>
 
-<section class="page" id="timer">
-  <div class="section-head"><div><h2>مؤقت الدراسة</h2><p>خصص وقتك وركز على هدفك</p></div></div>
-  <div class="page-panel timer-box">
-    <div style="color:var(--muted);font-size:12px">جلسة التركيز</div>
-    <div class="timer-display" id="timerDisplay">25:00</div>
-    <div class="timer-controls">
-      <button class="primary" onclick="startTimer()">بدء</button>
-      <button class="icon-btn" onclick="pauseTimer()">Ⅱ</button>
-      <button class="icon-btn" onclick="resetTimer()">↺</button>
-    </div>
-    <div class="timer-controls">
-      <button class="icon-btn" onclick="setTimer(25)">25 دقيقة</button>
-      <button class="icon-btn" onclick="setTimer(50)">50 دقيقة</button>
-      <button class="icon-btn" onclick="setTimer(60)">60 دقيقة</button>
-    </div>
+ <section class="page" id="timer">
+  <div class="page-banner"><h2>جلسة التركيز</h2><p>خصص وقتاً لنفسك وامنح هدفك كامل انتباهك.</p></div>
+  <div class="workspace timer-panel">
+   <div class="timer-label">وقت الجلسة الحالية</div>
+   <div class="timer-display" id="timerDisplay">25:00</div>
+   <div class="timer-actions">
+    <button class="primary" onclick="startTimer()">ابدأ التركيز</button>
+    <button onclick="pauseTimer()">إيقاف مؤقت</button>
+    <button onclick="resetTimer()">إعادة</button>
+   </div>
+   <div class="timer-actions">
+    <button onclick="setTimer(25)">25 دقيقة</button>
+    <button onclick="setTimer(50)">50 دقيقة</button>
+    <button onclick="setTimer(60)">60 دقيقة</button>
+   </div>
   </div>
-</section>
+ </section>
 
-<section class="page" id="profile">
-  <div class="section-head"><div><h2>ملفي الشخصي</h2><p>مساحتك الخاصة في باتمان</p></div></div>
-  <div class="page-panel profile">
-    <div class="avatar">B</div><h2>مستخدم باتمان</h2><p>عضو في BATMAN PRO · نسخة تجريبية</p>
-    <div class="stats" style="margin-top:25px">
-      <div class="stat"><strong id="profilePoints">0</strong><small>النقاط</small></div>
-      <div class="stat"><strong id="profileDone">0</strong><small>المهام المكتملة</small></div>
-    </div>
+ <section class="page" id="profile">
+  <div class="page-banner"><h2>ملفي الشخصي</h2><p>مساحتك الخاصة وتفاصيل نشاطك.</p></div>
+  <div class="workspace profile-card">
+   <div class="avatar">B</div>
+   <h2>مستخدم باتمان</h2>
+   <p>رحلتك تبدأ من هنا · BATMAN PRO</p>
+   <div class="stats" style="margin-top:25px">
+    <div class="stat"><strong id="profilePoints">0</strong><small>النقاط</small></div>
+    <div class="stat"><strong id="profileDone">0</strong><small>المهام المكتملة</small></div>
+   </div>
   </div>
-</section>
+ </section>
 </main>
 </div>
 
-<nav class="bottom-nav" id="bottomNav">
-  <button class="nav-btn active" data-page="home"><span class="nav-icon">⌂</span>الرئيسية</button>
-  <button class="nav-btn" data-page="tasks"><span class="nav-icon">☑</span>المهام</button>
-  <button class="nav-btn" data-page="notes"><span class="nav-icon">▤</span>الملاحظات</button>
-  <button class="nav-btn" data-page="timer"><span class="nav-icon">◷</span>المؤقت</button>
-  <button class="nav-btn" data-page="profile"><span class="nav-icon">♙</span>حسابي</button>
+<nav class="bottom-nav" id="mobileNav">
+ <button class="nav-btn active" data-page="home"><span class="nav-icon">⌂</span>الرئيسية</button>
+ <button class="nav-btn" data-page="tasks"><span class="nav-icon">☷</span>المهام</button>
+ <button class="nav-btn" data-page="notes"><span class="nav-icon">▤</span>ملاحظات</button>
+ <button class="nav-btn" data-page="timer"><span class="nav-icon">◷</span>التركيز</button>
+ <button class="nav-btn" data-page="profile"><span class="nav-icon">♙</span>حسابي</button>
 </nav>
 <div class="toast" id="toast"></div>
 
@@ -285,31 +328,33 @@ const $=id=>document.getElementById(id);
 let tasks=JSON.parse(localStorage.getItem('batman_tasks')||'[]');
 let notes=JSON.parse(localStorage.getItem('batman_notes')||'[]');
 let points=Number(localStorage.getItem('batman_points')||0);
-let remaining=25*60, timer=null;
+let remaining=1500,interval=null;
 
+function go(page){
+ document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+ $(page).classList.add('active');
+ document.querySelectorAll('.nav-btn').forEach(x=>x.classList.toggle('active',x.dataset.page===page));
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+document.querySelectorAll('.nav-btn').forEach(b=>b.addEventListener('click',()=>go(b.dataset.page)));
+function toast(message){
+ $('toast').textContent=message;$('toast').classList.add('show');
+ setTimeout(()=>$('toast').classList.remove('show'),2200);
+}
+function escapeHTML(s){
+ return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
 function save(){
  localStorage.setItem('batman_tasks',JSON.stringify(tasks));
  localStorage.setItem('batman_notes',JSON.stringify(notes));
  localStorage.setItem('batman_points',points);
  render();
 }
-function go(page){
- document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
- $(page).classList.add('active');
- document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.page===page));
- window.scrollTo({top:0,behavior:'smooth'});
-}
-document.querySelectorAll('.nav-btn').forEach(b=>b.addEventListener('click',()=>go(b.dataset.page)));
-
-function showToast(message){
- $('toast').textContent=message;$('toast').classList.add('show');
- setTimeout(()=>$('toast').classList.remove('show'),2200);
-}
 function addTask(){
- const value=$('taskInput').value.trim();
- if(!value)return showToast('اكتب اسم المهمة أولاً');
- tasks.unshift({id:Date.now(),title:value,done:false});
- $('taskInput').value='';save();showToast('تمت إضافة المهمة');
+ const v=$('taskInput').value.trim();
+ if(!v)return toast('اكتب المهمة أولاً');
+ tasks.unshift({id:Date.now(),title:v,done:false});
+ $('taskInput').value='';save();toast('تمت إضافة المهمة');
 }
 $('taskInput').addEventListener('keydown',e=>{if(e.key==='Enter')addTask()});
 function toggleTask(id){
@@ -320,47 +365,42 @@ function deleteTask(id){tasks=tasks.filter(x=>x.id!==id);save()}
 function taskHTML(t){
  return `<div class="task-row ${t.done?'done':''}">
  <input class="task-check" type="checkbox" ${t.done?'checked':''} onchange="toggleTask(${t.id})">
- <div class="task-info"><b>${escapeHTML(t.title)}</b><small>${t.done?'مكتملة':'قيد الإنجاز'}</small></div>
+ <div class="task-info"><b>${escapeHTML(t.title)}</b><small>${t.done?'مكتملة':'بانتظار الإنجاز'}</small></div>
  <button class="delete" onclick="deleteTask(${t.id})">×</button></div>`;
 }
 function addNote(){
  const title=$('noteTitle').value.trim(),body=$('noteBody').value.trim();
- if(!title&&!body)return showToast('اكتب عنواناً أو محتوى للملاحظة');
+ if(!title&&!body)return toast('اكتب شيئاً قبل الحفظ');
  notes.unshift({id:Date.now(),title:title||'ملاحظة جديدة',body});
- $('noteTitle').value='';$('noteBody').value='';save();showToast('تم حفظ الملاحظة');
+ $('noteTitle').value='';$('noteBody').value='';save();toast('تم حفظ الملاحظة');
 }
-function deleteNote(id){notes=notes.filter(n=>n.id!==id);save()}
-function escapeHTML(s){
- return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-}
+function deleteNote(id){notes=notes.filter(x=>x.id!==id);save()}
 function render(){
- const done=tasks.filter(t=>t.done).length,total=tasks.length;
+ const done=tasks.filter(x=>x.done).length,total=tasks.length;
  $('totalTasks').textContent=total;$('doneTasks').textContent=done;
  $('points').textContent=points;$('totalNotes').textContent=notes.length;
  $('profilePoints').textContent=points;$('profileDone').textContent=done;
- $('taskCount').textContent=total+' مهام';
  $('percent').textContent=(total?Math.round(done/total*100):0)+'%';
  $('progressBar').style.width=(total?done/total*100:0)+'%';
- $('homeTasks').innerHTML=tasks.length?tasks.slice(0,4).map(taskHTML).join(''):'<div class="empty">لا توجد مهام بعد. أضف أول مهمة لك!</div>';
- $('allTasks').innerHTML=tasks.length?tasks.map(taskHTML).join(''):'<div class="empty">قائمة المهام فارغة حالياً</div>';
- $('notesGrid').innerHTML=notes.length?notes.map(n=>`<article class="note"><div style="display:flex;justify-content:space-between"><h3>${escapeHTML(n.title)}</h3><button class="delete" onclick="deleteNote(${n.id})">×</button></div><p>${escapeHTML(n.body)}</p></article>`).join(''):'<div class="empty">لا توجد ملاحظات محفوظة بعد</div>';
+ $('homeTasks').innerHTML=tasks.length?tasks.slice(0,5).map(taskHTML).join(''):'<div class="empty">مساحتك جاهزة لأول إنجاز ✦</div>';
+ $('allTasks').innerHTML=tasks.length?tasks.map(taskHTML).join(''):'<div class="empty">لا توجد مهام حالياً. أضف أول مهمة لك.</div>';
+ $('notesGrid').innerHTML=notes.length?notes.map(n=>`<article class="note-card"><div style="display:flex;justify-content:space-between;gap:8px"><h4>${escapeHTML(n.title)}</h4><button class="delete" onclick="deleteNote(${n.id})">×</button></div><p>${escapeHTML(n.body)}</p></article>`).join(''):'<div class="empty">لا توجد ملاحظات محفوظة.</div>';
 }
-function showTime(){
- const m=Math.floor(remaining/60),s=remaining%60;
- $('timerDisplay').textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+function showTimer(){
+ $('timerDisplay').textContent=String(Math.floor(remaining/60)).padStart(2,'0')+':'+String(remaining%60).padStart(2,'0');
 }
-function setTimer(min){pauseTimer();remaining=min*60;showTime()}
+function setTimer(m){pauseTimer();remaining=m*60;showTimer()}
 function startTimer(){
- if(timer)return;
- timer=setInterval(()=>{
-  if(remaining>0){remaining--;showTime()}
-  else{pauseTimer();showToast('انتهت جلسة التركيز! أحسنت 👏')}
+ if(interval)return;
+ interval=setInterval(()=>{
+  if(remaining>0){remaining--;showTimer()}
+  else{pauseTimer();toast('انتهت جلسة التركيز. أحسنت!')}
  },1000);
 }
-function pauseTimer(){if(timer){clearInterval(timer);timer=null}}
-function resetTimer(){pauseTimer();remaining=25*60;showTime()}
+function pauseTimer(){if(interval){clearInterval(interval);interval=null}}
+function resetTimer(){pauseTimer();remaining=1500;showTimer()}
 $('today').textContent=new Intl.DateTimeFormat('ar-IQ',{weekday:'long',day:'numeric',month:'long'}).format(new Date());
-render();showTime();
+render();showTimer();
 </script>
 </body>
 </html>
