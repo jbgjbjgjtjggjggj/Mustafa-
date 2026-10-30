@@ -1,0 +1,564 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080d18">
+<title>BATMAN | Study Space</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+  --bg:#080d18;
+  --panel:#101a2b;
+  --card:#131f33;
+  --blue:#2585ff;
+  --light:#63b1ff;
+  --text:#f1f5ff;
+  --muted:#8493aa;
+  --border:#22334d;
+  --green:#36d6a0;
+  --red:#ff647c;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Cairo',Arial,sans-serif;
+  min-height:100vh;
+}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+
+header{
+  padding:20px;
+  background:linear-gradient(135deg,#101e35,#09111f);
+  border-bottom:1px solid var(--border);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.logo{
+  width:48px;height:48px;
+  border-radius:15px;
+  background:linear-gradient(135deg,#2585ff,#0750ba);
+  display:grid;place-items:center;
+  font-size:26px;
+  box-shadow:0 0 25px #2585ff55;
+}
+.brand h1{margin:0;font-size:23px;letter-spacing:2px}
+.brand p{margin:0;color:var(--muted);font-size:11px}
+.avatar{
+  width:43px;height:43px;
+  border:1px solid var(--blue);
+  border-radius:50%;
+  display:grid;place-items:center;
+  color:var(--light);font-weight:bold;
+  background:#152b48;
+}
+main{
+  max-width:850px;
+  margin:auto;
+  padding:22px 16px 110px;
+}
+.welcome{
+  padding:23px;
+  border:1px solid #244a78;
+  border-radius:20px;
+  background:linear-gradient(120deg,#122c4d,#101a2b 75%);
+  margin-bottom:20px;
+  position:relative;
+  overflow:hidden;
+}
+.welcome:after{
+  content:"";
+  position:absolute;
+  width:170px;height:170px;
+  background:#2585ff16;
+  border-radius:50%;
+  left:-55px;top:-65px;
+}
+.welcome small{color:var(--light)}
+.welcome h2{font-size:24px;margin:8px 0}
+.welcome p{color:#aab9cf;margin:0;font-size:13px}
+.section-title{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin:25px 0 13px;
+}
+.section-title h3{margin:0;font-size:17px}
+.section-title span{font-size:12px;color:var(--muted)}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+}
+.stat{
+  background:var(--card);
+  border:1px solid var(--border);
+  padding:16px;
+  border-radius:16px;
+}
+.stat .symbol{font-size:22px}
+.stat strong{display:block;font-size:24px;color:var(--light)}
+.stat small{color:var(--muted)}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  padding:17px;
+  border-radius:17px;
+  margin-bottom:13px;
+}
+.progress-track{
+  height:9px;
+  background:#26354b;
+  border-radius:20px;
+  overflow:hidden;
+  margin-top:12px;
+}
+.progress-fill{
+  height:100%;width:0;
+  background:linear-gradient(90deg,#1475ff,#63c4ff);
+  border-radius:20px;
+  transition:.3s;
+}
+.page{display:none}
+.page.active{display:block}
+
+.field{
+  width:100%;
+  background:#0c1524;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:13px;
+  color:white;
+  outline:none;
+  margin-bottom:10px;
+}
+.field:focus{border-color:var(--blue)}
+textarea.field{min-height:120px;resize:vertical}
+
+.btn{
+  border:0;
+  background:linear-gradient(110deg,#1475ef,#319cff);
+  color:white;
+  border-radius:11px;
+  padding:11px 18px;
+  font-weight:bold;
+}
+.btn.secondary{
+  background:#1b2b42;
+  border:1px solid var(--border);
+  color:#b8c9df;
+}
+.task{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  background:#101b2c;
+  border:1px solid var(--border);
+  padding:13px;
+  border-radius:13px;
+  margin-bottom:9px;
+}
+.task input{width:19px;height:19px;accent-color:var(--blue)}
+.task-content{flex:1;min-width:0}
+.task-content strong{display:block;overflow-wrap:anywhere}
+.task-content small{color:var(--muted)}
+.task.done strong{text-decoration:line-through;color:#8290a3}
+.delete{
+  background:#42202c;
+  color:#ff8195;
+  border:0;
+  padding:7px 10px;
+  border-radius:8px;
+}
+.note{
+  background:#101b2c;
+  border:1px solid var(--border);
+  padding:14px;
+  border-radius:13px;
+  margin-bottom:10px;
+}
+.note p{white-space:pre-wrap;color:#b9c8dc;overflow-wrap:anywhere}
+.note small{color:var(--muted)}
+
+.timer{
+  text-align:center;
+  padding:30px 15px;
+}
+.clock{
+  font-size:57px;
+  font-weight:800;
+  color:var(--light);
+  direction:ltr;
+  text-shadow:0 0 30px #2585ff55;
+}
+.timer p{color:var(--muted)}
+.timer-actions{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.nav{
+  position:fixed;
+  bottom:0;left:0;right:0;
+  z-index:10;
+  background:#0e1929f5;
+  backdrop-filter:blur(15px);
+  border-top:1px solid var(--border);
+  display:flex;
+  justify-content:space-around;
+  padding:10px 3px max(10px,env(safe-area-inset-bottom));
+}
+.nav button{
+  background:none;border:0;
+  color:var(--muted);
+  font-size:11px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:3px;
+  padding:5px 8px;
+}
+.nav button span{font-size:21px}
+.nav button.active{color:var(--light)}
+.empty{
+  text-align:center;
+  color:var(--muted);
+  padding:25px 10px;
+}
+footer{text-align:center;color:#53647c;font-size:11px;padding:20px}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="brand">
+    <div class="logo">🦇</div>
+    <div>
+      <h1>BATMAN</h1>
+      <p>YOUR ULTIMATE STUDY SPACE</p>
+    </div>
+  </div>
+  <div class="avatar">B</div>
+</header>
+
+<main>
+
+<!-- HOME -->
+<section class="page active" id="home">
+  <div class="welcome">
+    <small>⚡ YOUR JOURNEY STARTS HERE</small>
+    <h2>أهلاً بك في باتمان</h2>
+    <p>خطوة صغيرة كل يوم، تصنع مستقبلاً عظيماً.</p>
+  </div>
+
+  <div class="section-title">
+    <h3>ملخص يومك</h3>
+    <span id="today"></span>
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="symbol">📋</div>
+      <strong id="totalTasks">0</strong>
+      <small>إجمالي المهام</small>
+    </div>
+    <div class="stat">
+      <div class="symbol">✅</div>
+      <strong id="doneTasks">0</strong>
+      <small>المهام المكتملة</small>
+    </div>
+    <div class="stat">
+      <div class="symbol">⭐</div>
+      <strong id="points">0</strong>
+      <small>نقاط الإنجاز</small>
+    </div>
+    <div class="stat">
+      <div class="symbol">📝</div>
+      <strong id="notesCount">0</strong>
+      <small>الملاحظات</small>
+    </div>
+  </div>
+
+  <div class="section-title">
+    <h3>تقدمك اليوم</h3>
+    <span id="percent">0%</span>
+  </div>
+  <div class="card">
+    <div class="progress-track">
+      <div class="progress-fill" id="progress"></div>
+    </div>
+    <p style="color:var(--muted);font-size:12px" id="progressText">ابدأ بإضافة أول مهمة!</p>
+  </div>
+
+  <div class="section-title"><h3>مهامك القادمة</h3></div>
+  <div id="homeTasks"></div>
+</section>
+
+<!-- TASKS -->
+<section class="page" id="tasks">
+  <div class="section-title">
+    <h3>📋 إدارة المهام</h3>
+    <span>نظّم يومك</span>
+  </div>
+  <div class="card">
+    <input class="field" id="taskInput" placeholder="اكتب المهمة التي تريد إنجازها...">
+    <input class="field" id="taskDate" type="date">
+    <button class="btn" onclick="addTask()">+ إضافة مهمة</button>
+  </div>
+  <div id="taskList"></div>
+</section>
+
+<!-- NOTES -->
+<section class="page" id="notes">
+  <div class="section-title">
+    <h3>📝 دفتر ملاحظاتي</h3>
+    <span>أفكارك في مكان واحد</span>
+  </div>
+  <div class="card">
+    <input class="field" id="noteTitle" placeholder="عنوان الملاحظة">
+    <textarea class="field" id="noteBody" placeholder="اكتب أفكارك وملاحظاتك هنا..."></textarea>
+    <button class="btn" onclick="addNote()">حفظ الملاحظة</button>
+  </div>
+  <div id="notesList"></div>
+</section>
+
+<!-- TIMER -->
+<section class="page" id="timer">
+  <div class="section-title"><h3>⏱️ مؤقت الدراسة</h3></div>
+  <div class="card timer">
+    <p>وقت التركيز</p>
+    <div class="clock" id="clock">25:00</div>
+    <p id="timerStatus">جاهز للبدء؟</p>
+    <div class="timer-actions">
+      <button class="btn" id="startBtn" onclick="toggleTimer()">ابدأ</button>
+      <button class="btn secondary" onclick="resetTimer()">إعادة ضبط</button>
+    </div>
+    <div style="margin-top:25px">
+      <button class="btn secondary" onclick="setTimer(25)">25 دقيقة</button>
+      <button class="btn secondary" onclick="setTimer(50)">50 دقيقة</button>
+      <button class="btn secondary" onclick="setTimer(60)">60 دقيقة</button>
+    </div>
+  </div>
+</section>
+
+<!-- PROFILE -->
+<section class="page" id="profile">
+  <div class="section-title"><h3>👤 حسابي</h3></div>
+  <div class="card" style="text-align:center;padding:30px">
+    <div class="logo" style="margin:auto;width:75px;height:75px;font-size:38px">🦇</div>
+    <h2>طالب باتمان</h2>
+    <p style="color:var(--muted)">رحلتك نحو التفوق تبدأ اليوم.</p>
+    <div class="progress-track"><div class="progress-fill" id="profileProgress"></div></div>
+    <p id="profileStats" style="color:var(--light)"></p>
+  </div>
+  <div class="card">
+    <h3>عن باتمان</h3>
+    <p style="color:var(--muted)">مساحتك الخاصة للتنظيم والدراسة والإنجاز.</p>
+    <p style="color:var(--muted);font-size:12px">BATMAN STUDY SPACE · VERSION 2.0</p>
+  </div>
+</section>
+
+<footer>BATMAN © 2026 — BUILT FOR YOUR SUCCESS</footer>
+</main>
+
+<nav class="nav">
+  <button class="active" onclick="showPage('home',this)"><span>⌂</span>الرئيسية</button>
+  <button onclick="showPage('tasks',this)"><span>☑</span>المهام</button>
+  <button onclick="showPage('notes',this)"><span>▤</span>ملاحظاتي</button>
+  <button onclick="showPage('timer',this)"><span>◷</span>المؤقت</button>
+  <button onclick="showPage('profile',this)"><span>◉</span>حسابي</button>
+</nav>
+
+<script>
+const $ = id => document.getElementById(id);
+
+let tasks = JSON.parse(localStorage.getItem('batman_tasks') || '[]');
+let notes = JSON.parse(localStorage.getItem('batman_notes') || '[]');
+let points = Number(localStorage.getItem('batman_points') || 0);
+
+function save(){
+  localStorage.setItem('batman_tasks',JSON.stringify(tasks));
+  localStorage.setItem('batman_notes',JSON.stringify(notes));
+  localStorage.setItem('batman_points',points);
+}
+
+function showPage(id,btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  $(id).classList.add('active');
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function addTask(){
+  const input=$('taskInput');
+  const title=input.value.trim();
+  if(!title){alert('اكتب اسم المهمة أولاً');return;}
+  tasks.unshift({
+    id:Date.now(),
+    title,
+    date:$('taskDate').value,
+    done:false
+  });
+  input.value='';
+  $('taskDate').value='';
+  save();
+  render();
+}
+
+function toggleTask(id){
+  const task=tasks.find(t=>t.id===id);
+  if(!task)return;
+  task.done=!task.done;
+  points+=task.done?10:-10;
+  save();
+  render();
+}
+
+function deleteTask(id){
+  if(!confirm('هل تريد حذف هذه المهمة؟'))return;
+  tasks=tasks.filter(t=>t.id!==id);
+  save();
+  render();
+}
+
+function addNote(){
+  const title=$('noteTitle').value.trim();
+  const body=$('noteBody').value.trim();
+  if(!title||!body){alert('أكمل العنوان والملاحظة');return;}
+  notes.unshift({id:Date.now(),title,body,date:new Date().toLocaleDateString('ar-IQ')});
+  $('noteTitle').value='';
+  $('noteBody').value='';
+  save();
+  render();
+}
+
+function deleteNote(id){
+  if(!confirm('حذف الملاحظة؟'))return;
+  notes=notes.filter(n=>n.id!==id);
+  save();
+  render();
+}
+
+function taskHTML(t){
+  return `<div class="task ${t.done?'done':''}">
+    <input type="checkbox" ${t.done?'checked':''} onchange="toggleTask(${t.id})">
+    <div class="task-content">
+      <strong>${escapeHTML(t.title)}</strong>
+      <small>${t.date||'بدون موعد'}</small>
+    </div>
+    <button class="delete" onclick="deleteTask(${t.id})">حذف</button>
+  </div>`;
+}
+
+function escapeHTML(str){
+  return str.replace(/[&<>"']/g,c=>({
+    '&':'&amp;','<':'&lt;','>':'&gt;',
+    '"':'&quot;',"'":'&#39;'
+  })[c]);
+}
+
+function render(){
+  const done=tasks.filter(t=>t.done).length;
+  const percent=tasks.length?Math.round(done/tasks.length*100):0;
+
+  $('totalTasks').textContent=tasks.length;
+  $('doneTasks').textContent=done;
+  $('points').textContent=points;
+  $('notesCount').textContent=notes.length;
+  $('percent').textContent=percent+'%';
+  $('progress').style.width=percent+'%';
+  $('profileProgress').style.width=percent+'%';
+  $('progressText').textContent=tasks.length?
+    `أنجزت ${done} من ${tasks.length} مهمة`:'ابدأ بإضافة أول مهمة!';
+  $('profileStats').textContent=`أنجزت ${done} مهمة وجمعت ${points} نقطة`;
+
+  $('taskList').innerHTML=tasks.length?
+    tasks.map(taskHTML).join(''):'<div class="empty">لا توجد مهام بعد. أضف مهمتك الأولى! ✨</div>';
+
+  const upcoming=tasks.filter(t=>!t.done).slice(0,4);
+  $('homeTasks').innerHTML=upcoming.length?
+    upcoming.map(taskHTML).join(''):'<div class="empty">يومك ينتظر إنجازاتك! 🌟</div>';
+
+  $('notesList').innerHTML=notes.length?
+    notes.map(n=>`<div class="note">
+      <strong>${escapeHTML(n.title)}</strong>
+      <small> · ${n.date}</small>
+      <p>${escapeHTML(n.body)}</p>
+      <button class="delete" onclick="deleteNote(${n.id})">حذف</button>
+    </div>`).join(''):'<div class="empty">دفترك فارغ، اكتب أول ملاحظة 📝</div>';
+}
+
+$('today').textContent=new Date().toLocaleDateString('ar-IQ');
+
+let duration=25*60;
+let remaining=duration;
+let interval=null;
+
+function updateClock(){
+  const m=Math.floor(remaining/60);
+  const s=remaining%60;
+  $('clock').textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+}
+
+function toggleTimer(){
+  if(interval){
+    clearInterval(interval);
+    interval=null;
+    $('startBtn').textContent='متابعة';
+    $('timerStatus').textContent='المؤقت متوقف مؤقتاً';
+    return;
+  }
+  $('startBtn').textContent='إيقاف';
+  $('timerStatus').textContent='ركز على هدفك الآن ⚡';
+  interval=setInterval(()=>{
+    if(remaining>0){
+      remaining--;
+      updateClock();
+    }else{
+      clearInterval(interval);
+      interval=null;
+      $('startBtn').textContent='ابدأ';
+      $('timerStatus').textContent='أحسنت! انتهت جلسة الدراسة 🎉';
+      alert('أحسنت! انتهى وقت الدراسة.');
+    }
+  },1000);
+}
+
+function resetTimer(){
+  clearInterval(interval);
+  interval=null;
+  remaining=duration;
+  $('startBtn').textContent='ابدأ';
+  $('timerStatus').textContent='جاهز للبدء؟';
+  updateClock();
+}
+
+function setTimer(minutes){
+  duration=minutes*60;
+  resetTimer();
+}
+
+render();
+updateClock();
+</script>
+
+</body>
+</html>
