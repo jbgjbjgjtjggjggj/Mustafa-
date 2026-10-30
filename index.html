@@ -201,13 +201,14 @@ button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px soli
   <div class="brand-name">BATMAN<span>PERSONAL SPACE</span></div>
  </div>
  <div class="nav-label">مساحة العمل</div>
- <nav id="desktopNav">
+<nav id="desktopNav">
   <button class="nav-btn active" data-page="home"><span class="nav-icon">⌂</span>الرئيسية</button>
+  <button class="nav-btn" data-page="subjects"><span class="nav-icon">📚</span>المواد الدراسية</button>
   <button class="nav-btn" data-page="tasks"><span class="nav-icon">☷</span>المهام اليومية</button>
   <button class="nav-btn" data-page="notes"><span class="nav-icon">▤</span>الملاحظات</button>
   <button class="nav-btn" data-page="timer"><span class="nav-icon">◷</span>جلسة التركيز</button>
   <button class="nav-btn" data-page="profile"><span class="nav-icon">♙</span>الملف الشخصي</button>
- </nav>
+</nav>
  <div class="sidebar-footer">
   <div class="mini-profile"><div class="avatar">B</div><div><strong>مساحة باتمان</strong><small>نسخة تجريبية</small></div></div>
  </div>
@@ -262,7 +263,21 @@ button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px soli
    </div>
   </div>
  </section>
+<section class="page" id="subjects">
+  <div class="page-banner">
+    <h2>المواد الدراسية</h2>
+    <p>تابع فصولك ومهامك ونسبة إنجازك في كل مادة.</p>
+  </div>
 
+  <div class="workspace">
+    <div class="form-row">
+      <input id="subjectInput" class="field" placeholder="اكتب اسم المادة الجديدة">
+      <button class="primary" onclick="addSubject()">＋ إضافة مادة</button>
+    </div>
+
+    <div id="subjectsList"></div>
+  </div>
+</section>
  <section class="page" id="tasks">
   <div class="page-banner"><h2>المهام اليومية</h2><p>حوّل خططك إلى خطوات واضحة قابلة للإنجاز.</p></div>
   <div class="workspace">
@@ -400,7 +415,111 @@ function startTimer(){
 function pauseTimer(){if(interval){clearInterval(interval);interval=null}}
 function resetTimer(){pauseTimer();remaining=1500;showTimer()}
 $('today').textContent=new Intl.DateTimeFormat('ar-IQ',{weekday:'long',day:'numeric',month:'long'}).format(new Date());
-render();showTimer();
+ render();showTimer();
+// ===== BATMAN PRO SUBJECTS SYSTEM =====
+
+let subjects = JSON.parse(localStorage.getItem('batman_subjects') || 'null') || [
+ {id:1,name:'الرياضيات'},
+ {id:2,name:'الفيزياء'},
+ {id:3,name:'الكيمياء'},
+ {id:4,name:'الأحياء'},
+ {id:5,name:'اللغة العربية'},
+ {id:6,name:'اللغة الإنكليزية'},
+ {id:7,name:'التربية الإسلامية'}
+];
+
+let subjectTasks = JSON.parse(localStorage.getItem('batman_subject_tasks') || '{}');
+
+function saveSubjects(){
+ localStorage.setItem('batman_subjects',JSON.stringify(subjects));
+ localStorage.setItem('batman_subject_tasks',JSON.stringify(subjectTasks));
+}
+
+function renderSubjects(){
+ const box=$('subjectsList');
+ if(!box)return;
+
+ box.innerHTML=subjects.map(s=>{
+  const list=subjectTasks[s.id]||[];
+  const done=list.filter(t=>t.done).length;
+  const percent=list.length?Math.round(done/list.length*100):0;
+
+  return `
+   <div class="workspace" style="margin-top:14px">
+    <h3>${escapeHTML(s.name)}</h3>
+    <p>المهام: ${done} من ${list.length} · الإنجاز ${percent}%</p>
+    <div style="height:8px;background:#252b36;border-radius:8px;overflow:hidden">
+     <div style="height:100%;width:${percent}%;background:#367cff"></div>
+    </div>
+    <div class="form-row" style="margin-top:12px">
+     <button class="primary" onclick="openSubject(${s.id})">فتح المادة</button>
+     <button class="primary" onclick="renameSubject(${s.id})">تعديل</button>
+     <button class="primary" onclick="deleteSubject(${s.id})">حذف</button>
+    </div>
+   </div>`;
+ }).join('');
+}
+
+function addSubject(){
+ const input=$('subjectInput');
+ const name=input.value.trim();
+ if(!name)return toast('اكتب اسم المادة أولاً');
+ subjects.push({id:Date.now(),name});
+ input.value='';
+ saveSubjects();
+ renderSubjects();
+ toast('تمت إضافة المادة');
+}
+
+function renameSubject(id){
+ const s=subjects.find(x=>x.id===id);
+ if(!s)return;
+ const name=prompt('اكتب الاسم الجديد للمادة',s.name);
+ if(name===null||!name.trim())return;
+ s.name=name.trim();
+ saveSubjects();
+ renderSubjects();
+ toast('تم تعديل المادة');
+}
+
+function deleteSubject(id){
+ const s=subjects.find(x=>x.id===id);
+ if(!s)return;
+ if(!confirm('هل تريد حذف المادة ومهامها؟'))return;
+ subjects=subjects.filter(x=>x.id!==id);
+ delete subjectTasks[id];
+ saveSubjects();
+ renderSubjects();
+ toast('تم حذف المادة');
+}
+
+function openSubject(id){
+ const s=subjects.find(x=>x.id===id);
+ if(!s)return;
+ const list=subjectTasks[id]||[];
+ const text=list.map((t,i)=>(i+1)+'. '+(t.done?'✓ ':'○ ')+t.title).join('\n');
+ const action=prompt(
+  'مادة: '+s.name+'\n\n'+(text||'لا توجد مهام بعد')+
+  '\n\nاكتب مهمة جديدة لإضافتها، أو اترك الحقل فارغاً.',
+  ''
+ );
+ if(action&&action.trim()){
+  subjectTasks[id]=subjectTasks[id]||[];
+  subjectTasks[id].push({title:action.trim(),done:false});
+  saveSubjects();
+  renderSubjects();
+  toast('تمت إضافة مهمة للمادة');
+ }
+}
+
+function escapeHTML(value){
+ return String(value).replace(/[&<>"']/g,c=>({
+  '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+ }[c]));
+}
+saveSubjects();
+renderSubjects();
+
 </script>
 </body>
 </html>
