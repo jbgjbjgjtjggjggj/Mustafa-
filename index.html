@@ -1,1 +1,112 @@
 
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#101827">
+  <title>باتمان | منصتك الدراسية</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #101827;
+      color: #fff;
+    }
+    header {
+      padding: 25px 20px;
+      background: #182438;
+      border-bottom: 1px solid #29364b;
+    }
+    header h1 { margin: 0 0 8px; color: #72a7ff; }
+    header p { margin: 0; color: #aab8ca; }
+    main { padding: 20px; max-width: 650px; margin: auto; }
+    .welcome { margin-bottom: 25px; }
+    .welcome h2 { font-size: 23px; }
+    .welcome p { color: #aab8ca; }
+    .card {
+      background: #1b2a40;
+      border: 1px solid #2b3b52;
+      padding: 19px;
+      border-radius: 16px;
+      margin-bottom: 15px;
+    }
+    .card h3 { margin-top: 0; }
+    .number { font-size: 30px; color: #72a7ff; }
+    button {
+      border: 0;
+      background: #3978df;
+      color: white;
+      padding: 13px 18px;
+      border-radius: 10px;
+      font-size: 15px;
+      cursor: pointer;
+    }
+    nav {
+      display: flex;
+      justify-content: space-around;
+      background: #182438;
+      padding: 17px 5px;
+      position: sticky;
+      bottom: 0;
+    }
+    nav a { color: #aab8ca; text-decoration: none; }
+    footer { text-align: center; padding: 20px; color: #8795a9; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>باتمان</h1>
+  <p>منصتك لتنظيم رحلتك الدراسية</p>
+</header>
+
+<main>
+  <section class="welcome">
+    <h2>أهلاً بك في باتمان 👋</h2>
+    <p>ابدأ يومك، نظّم مهامك، وحقق أهدافك.</p>
+  </section>
+
+  <section class="card">
+    <h3>إنجازك اليومي</h3>
+    <div class="number" id="progress">0%</div>
+    <p>كل مهمة تنجزها تقربك من هدفك.</p>
+  </section>
+
+  <section class="card">
+    <h3>📋 مهامي</h3>
+    <p>نظّم واجباتك ومهامك الدراسية.</p>
+    <button onclick="alert('قسم المهام قيد التطوير')">
+      فتح المهام
+    </button>
+  </section>
+
+  <section class="card">
+    <h3>📝 ملاحظاتي</h3>
+    <p>احتفظ بأفكارك وملاحظاتك في مكان واحد.</p>
+    <button onclick="alert('قسم الملاحظات قيد التطوير')">
+      فتح الملاحظات
+    </button>
+  </section>
+
+  <section class="card">
+    <h3>⏱️ مؤقت الدراسة</h3>
+    <p>نظّم وقتك وركز على أهدافك.</p>
+    <button onclick="alert('مؤقت الدراسة قيد التطوير')">
+      بدء الدراسة
+    </button>
+  </section>
+</main>
+
+<nav>
+  <a href="#">الرئيسية</a>
+  <a href="#tasks">المهام</a>
+  <a href="#notes">الملاحظات</a>
+  <a href="#profile">حسابي</a>
+</nav>
+
+<footer>باتمان © 2026</footer>
+
+</body>
+</html>
