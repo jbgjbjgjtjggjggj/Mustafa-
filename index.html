@@ -4,17 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>مجرتي PRO | تطبيق الطلاب المتكامل</title>
-<!-- Telegram WebApp SDK للربط المباشر مع حسابات تيليجرام -->
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg-dark: #080c14;
-  --panel-bg: #0f1724;
-  --panel-border: #1b2638;
+  --bg-dark: #070b12;
+  --panel-bg: #0d1420;
+  --panel-border: #172235;
   --accent-green: #10b981;
   --accent-green-hover: #059669;
-  --accent-blue: #2563eb;
   --text-main: #f3f4f6;
   --text-muted: #9ca3af;
   --text-dim: #4b5563;
@@ -41,13 +39,13 @@ body {
 .app-container {
   width: 100%;
   max-width: 480px;
-  background: #0a111c;
+  background: #090f19;
   min-height: 100vh;
   position: relative;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 0 50px rgba(0,0,0,0.9);
-  padding-bottom: 75px;
+  box-shadow: 0 0 40px rgba(0,0,0,0.8);
+  padding-bottom: 80px;
 }
 
 /* Header */
@@ -56,8 +54,8 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: rgba(15, 23, 36, 0.95);
-  backdrop-filter: blur(12px);
+  background: rgba(13, 20, 32, 0.95);
+  backdrop-filter: blur(10px);
   position: sticky;
   top: 0;
   z-index: 50;
@@ -75,7 +73,7 @@ body {
   height: 40px;
   border-radius: 50%;
   border: 2px solid var(--accent-green);
-  background: #1a2536;
+  background: #152238;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -84,11 +82,7 @@ body {
   color: var(--accent-green);
 }
 
-.avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
+.avatar img { width: 100%; height: 100%; object-fit: cover; }
 
 .user-info h4 { font-size: 14px; font-weight: 700; }
 .user-info p { font-size: 11px; color: var(--text-muted); }
@@ -97,7 +91,7 @@ body {
 .badge {
   background: var(--panel-bg);
   border: 1px solid var(--panel-border);
-  padding: 4px 8px;
+  padding: 4px 10px;
   border-radius: 20px;
   font-size: 11px;
   display: flex;
@@ -109,14 +103,8 @@ body {
 .view {
   display: none;
   padding: 16px;
-  animation: fadeIn 0.2s ease-in-out;
 }
 .view.active { display: block; }
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(4px); }
-  to { opacity: 1; transform: translateY(0); }
-}
 
 .card {
   background: var(--panel-bg);
@@ -131,7 +119,7 @@ body {
   background: var(--accent-green);
   color: #fff;
   border: none;
-  padding: 13px;
+  padding: 14px;
   border-radius: 12px;
   font-size: 14px;
   font-weight: 700;
@@ -142,17 +130,17 @@ body {
   gap: 8px;
   transition: 0.2s;
 }
-
 .btn-primary:active { transform: scale(0.98); background: var(--accent-green-hover); }
 
 .btn-secondary {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.04);
   border: 1px solid var(--panel-border);
   color: var(--text-main);
-  padding: 8px 14px;
+  padding: 8px 12px;
   border-radius: 10px;
   font-size: 12px;
   cursor: pointer;
+  transition: 0.2s;
 }
 .btn-secondary.active { background: var(--accent-green); border-color: var(--accent-green); color: #fff; }
 
@@ -165,19 +153,19 @@ body {
   justify-content: space-between;
 }
 
-/* 1. قسم الدراسة والمؤقت */
+/* Study Section */
 .session-hero {
   text-align: center;
-  padding: 22px 14px;
-  background: linear-gradient(180deg, rgba(16,185,129,0.08) 0%, rgba(15,23,36,0) 100%);
+  padding: 24px 16px;
+  background: linear-gradient(180deg, rgba(16,185,129,0.08) 0%, rgba(13,20,32,0) 100%);
   border-radius: 20px;
   border: 1px solid rgba(16,185,129,0.2);
   margin-bottom: 16px;
 }
 
 .timer-circle {
-  width: 190px;
-  height: 190px;
+  width: 180px;
+  height: 180px;
   border-radius: 50%;
   border: 8px solid var(--panel-border);
   border-top-color: var(--accent-green);
@@ -187,389 +175,9 @@ body {
   align-items: center;
   margin: 16px auto;
 }
+.timer-display { font-size: 36px; font-weight: 800; font-family: monospace; }
 
-.timer-display { font-size: 38px; font-weight: 800; font-family: monospace; }
-
-/* 2. قسم الامتحانات والأسئلة الشهري (مطابق للصور) */
-.step-card { position: relative; margin-bottom: 14px; }
+/* Exam Generator Section */
+.step-card { margin-bottom: 14px; }
 .step-num {
-  background: var(--accent-green); color: #000;
-  width: 24px; height: 24px; border-radius: 50%;
-  display: inline-flex; justify-content: center; align-items: center;
-  font-weight: 700; font-size: 12px; margin-left: 8px;
-}
-.chapter-item {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 12px; background: rgba(255,255,255,0.02);
-  border-radius: 10px; margin-bottom: 8px; border: 1px solid transparent;
-  cursor: pointer; transition: 0.2s;
-}
-.chapter-item.selected { border-color: var(--accent-green); background: rgba(16,185,129,0.06); }
-.chapter-checkbox {
-  width: 18px; height: 18px; border-radius: 4px; border: 2px solid var(--text-dim);
-  display: flex; justify-content: center; align-items: center; font-size: 12px;
-}
-.chapter-item.selected .chapter-checkbox { background: var(--accent-green); border-color: var(--accent-green); color: #000; }
-
-.chip-group { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
-
-/* 3. شريط التنقل السفلي */
-.bottom-nav {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  max-width: 480px;
-  background: var(--panel-bg);
-  border-top: 1px solid var(--panel-border);
-  display: flex;
-  justify-content: space-around;
-  padding: 10px 0;
-  z-index: 100;
-}
-
-.nav-item {
-  display: flex; flex-direction: column; align-items: center; gap: 4px;
-  color: var(--text-dim); font-size: 11px; cursor: pointer; background: none; border: none; width: 25%;
-}
-.nav-item.active { color: var(--accent-green); }
-.nav-item svg { width: 22px; height: 22px; fill: currentColor; }
-
-/* Modal Settings */
-.modal {
-  display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85);
-  backdrop-filter: blur(8px); z-index: 200; align-items: flex-end; justify-content: center;
-}
-.modal.active { display: flex; }
-.modal-content {
-  background: var(--panel-bg); width: 100%; max-width: 480px;
-  border-radius: 24px 24px 0 0; padding: 20px; border-top: 1px solid var(--panel-border);
-  max-height: 85vh; overflow-y: auto;
-}
-</style>
-</head>
-<body>
-
-<div class="app-container">
-  <!-- رأس الصفحة (مرتبط تلقائياً ببيانات حساب تيليجرام) -->
-  <header class="top-header">
-    <div class="user-profile-sm">
-      <div class="avatar" id="userAvatar">👤</div>
-      <div class="user-info">
-        <h4 id="userName">طالب مجرتي</h4>
-        <p id="userStatus">جاهز للدراسة</p>
-      </div>
-    </div>
-    <div class="header-badges">
-      <div class="badge">⭐ <span id="userStars">0</span></div>
-      <div class="badge">🔥 <span id="userStreak">1 يوم</span></div>
-    </div>
-  </header>
-
-  <!-- 1. قسم الدراسة والتركيز -->
-  <main id="view-study" class="view active">
-    <div class="session-hero card">
-      <div style="font-size: 36px; margin-bottom: 8px;">🚀</div>
-      <h2>ابدأ جلسة تركيز جديدة</h2>
-      <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px; margin-bottom: 14px;">اختر نظام الوقت وتابع إنجازك اليومي</p>
-      <button class="btn-primary" onclick="openStudyModal()">► إعداد الجلسة وبدء التركيز</button>
-    </div>
-
-    <!-- لوحة المؤقت النشط عند بدء الجلسة -->
-    <div id="activeTimerPanel" class="card" style="display:none; text-align:center;">
-      <h3 id="currentSessionType">وقت التركيز</h3>
-      <div class="timer-circle">
-        <div class="timer-display" id="timerCount">25:00</div>
-        <span style="font-size:11px; color:var(--text-muted); margin-top:4px;" id="timerPhase">مرحلة التركيز</span>
-      </div>
-      <div style="display:flex; gap:10px;">
-        <button class="btn-primary" id="toggleTimerBtn" onclick="toggleTimer()">إيقاف مؤقت</button>
-        <button class="btn-secondary" style="background:#ef4444; color:#fff; border:none; width:50%;" onclick="stopSession()">إنهاء الجلسة</button>
-      </div>
-    </div>
-  </main>
-
-  <!-- 2. قسم مولد الاسئلة والامتحانات (طابق الصور 100%) -->
-  <main id="view-exams" class="view">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-      <div>
-        <h3>أنشئ أسئلة شهرية</h3>
-        <p style="font-size:11px; color:var(--text-muted);">الأحياء • السادس الإعدادي</p>
-      </div>
-    </div>
-
-    <!-- الخطوة 1: اختيار الفصول -->
-    <div class="card step-card">
-      <div class="section-title">
-        <div><span class="step-num">1</span> اختر الفصول</div>
-        <div style="display:flex; gap:6px;">
-          <button class="btn-secondary" style="padding:3px 8px; font-size:11px;" onclick="selectAllChapters(true)">تحديد الكل</button>
-          <button class="btn-secondary" style="padding:3px 8px; font-size:11px;" onclick="selectAllChapters(false)">إلغاء التحديد</button>
-        </div>
-      </div>
-      
-      <div id="chaptersContainer">
-        <div class="chapter-item" onclick="toggleChapter(this)" data-questions="1319">
-          <div style="display:flex; align-items:center; gap:10px;">
-            <div class="chapter-checkbox">✓</div>
-            <span>الفصل 1: الخلية</span>
-          </div>
-          <span style="font-size:12px; color:var(--text-dim);">1319</span>
-        </div>
-        <div class="chapter-item" onclick="toggleChapter(this)" data-questions="1447">
-          <div style="display:flex; align-items:center; gap:10px;">
-            <div class="chapter-checkbox">✓</div>
-            <span>الفصل 2: الأنسجة</span>
-          </div>
-          <span style="font-size:12px; color:var(--text-dim);">1447</span>
-        </div>
-        <div class="chapter-item" onclick="toggleChapter(this)" data-questions="1966">
-          <div style="display:flex; align-items:center; gap:10px;">
-            <div class="chapter-checkbox">✓</div>
-            <span>الفصل 3: التكاثر</span>
-          </div>
-          <span style="font-size:12px; color:var(--text-dim);">1966</span>
-        </div>
-        <div class="chapter-item" onclick="toggleChapter(this)" data-questions="292">
-          <div style="display:flex; align-items:center; gap:10px;">
-            <div class="chapter-checkbox">✓</div>
-            <span>الفصل 4: التكوين الجنيني</span>
-          </div>
-          <span style="font-size:12px; color:var(--text-dim);">292</span>
-        </div>
-        <div class="chapter-item" onclick="toggleChapter(this)" data-questions="750">
-          <div style="display:flex; align-items:center; gap:10px;">
-            <div class="chapter-checkbox">✓</div>
-            <span>الفصل 5: الوراثة</span>
-          </div>
-          <span style="font-size:12px; color:var(--text-dim);">750</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- الخطوة 2: مدة الامتحان -->
-    <div class="card step-card">
-      <div class="section-title">
-        <div><span class="step-num">2</span> مدة الامتحان</div>
-      </div>
-      <div class="chip-group" id="durationGroup">
-        <button class="btn-secondary active" onclick="setExamOption(this, 'duration')">بدون مدة</button>
-        <button class="btn-secondary" onclick="setExamOption(this, 'duration')">نصف ساعة</button>
-        <button class="btn-secondary" onclick="setExamOption(this, 'duration')">ساعة</button>
-        <button class="btn-secondary" onclick="setExamOption(this, 'duration')">ساعة ونصف</button>
-        <button class="btn-secondary" onclick="setExamOption(this, 'duration')">ساعتان</button>
-      </div>
-    </div>
-
-    <!-- الخطوة 3: صيغة الورقة -->
-    <div class="card step-card">
-      <div class="section-title">
-        <div><span class="step-num">3</span> صيغة الورقة</div>
-        <span style="font-size:11px; color:var(--accent-green);">تلقائية • 100 درجة</span>
-      </div>
-      <p style="font-size:12px; color:var(--text-muted); line-height:1.6;">الترتيب التلقائي على نمط امتحانات الأحياء الحقيقية:<br>س1: تعريف ×3 (10) + عدّد / اذكر (10)</p>
-    </div>
-
-    <button class="btn-primary" onclick="createExamPaper()">✦ أنشئ الاختبار</button>
-  </main>
-
-  <!-- 3. قسم تحدي الأصدقاء -->
-  <main id="view-challenges" class="view">
-    <h3 style="margin-bottom: 14px;">تحدي الأصدقاء ⚔️</h3>
-    <div class="card" style="text-align:center;">
-      <div style="background: rgba(245,158,11,0.1); color:var(--gold); padding:8px; border-radius:10px; font-size:12px; margin-bottom:14px;">
-        🏆 الفائز +10 نجمة • الخاسر -2 نجمة
-      </div>
-      <p style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">أنشئ غرفة تحدي تنافسية على ساعات الدراسة وشاركها عبر البوت</p>
-      
-      <div style="margin: 15px 0; text-align:right;">
-        <label style="font-size:12px; color:var(--text-muted);">عدد الطلاب المشاركين:</label>
-        <input type="range" id="studentsCount" min="2" max="8" value="4" style="width:100%; margin:8px 0;" oninput="document.getElementById('countVal').innerText = this.value + ' طلاب'">
-        <div style="font-size:12px; color:var(--accent-green);" id="countVal">4 طلاب</div>
-      </div>
-
-      <button class="btn-primary" onclick="generateChallengeCode()">🚀 ابدأ التحدي الآن</button>
-    </div>
-  </main>
-
-  <!-- 4. قسم الأوائل -->
-  <main id="view-leaderboard" class="view">
-    <h3 style="margin-bottom: 14px;">لوحة الترتيب العام 🏆</h3>
-    <div class="card" id="leaderboardList">
-      <p style="font-size:12px; color:var(--text-muted); text-align:center;">يتم تحديث الترتيب تلقائياً حسب ساعات الدراسة المسجلة.</p>
-    </div>
-  </main>
-
-  <!-- شريط التنقل السفلي -->
-  <nav class="bottom-nav">
-    <button class="nav-item active" onclick="switchTab('study', this)">
-      <svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
-      الدراسة
-    </button>
-    <button class="nav-item" onclick="switchTab('exams', this)">
-      <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
-      اختبرني
-    </button>
-    <button class="nav-item" onclick="switchTab('challenges', this)">
-      <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3z"/></svg>
-      التحديات
-    </button>
-    <button class="nav-item" onclick="switchTab('leaderboard', this)">
-      <svg viewBox="0 0 24 24"><path d="M7 17h2v-7H7v7zm4 0h2V7h-2v10zm4 0h2v-4h-2v4zM19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
-      الأوائل
-    </button>
-  </nav>
-</div>
-
-<!-- Modal إعداد جلسة الدراسة (مطابق للصورة 5) -->
-<div class="modal" id="studyModal">
-  <div class="modal-content">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-      <h3>جلسة جديدة</h3>
-      <button class="btn-secondary" style="padding:4px 10px;" onclick="closeStudyModal()">✕</button>
-    </div>
-    
-    <div style="margin-bottom:16px;">
-      <label style="font-size:12px; color:var(--text-muted); display:block; margin-bottom:8px;">مدة الجلسة:</label>
-      <div class="chip-group">
-        <button class="btn-secondary active" onclick="selectSessionTime(this, 25)">25 دقيقة</button>
-        <button class="btn-secondary" onclick="selectSessionTime(this, 50)">50 دقيقة</button>
-        <button class="btn-secondary" onclick="selectSessionTime(this, 60)">ساعة كاملة</button>
-      </div>
-    </div>
-
-    <button class="btn-primary" onclick="confirmStartTimer()">► بدء الجلسة</button>
-  </div>
-</div>
-
-<script>
-// 1. Telegram WebApp Integration (الربط التلقائي الحقيقي مع تيليجرام)
-const tg = window.Telegram?.WebApp;
-
-window.addEventListener('DOMContentLoaded', () => {
-  if (tg) {
-    tg.ready();
-    tg.expand(); // توسيع الصفحة داخل تيليجرام بالكامل
-    
-    // جلب بيانات المستخدم الحقيقية من تيليجرام
-    const user = tg.initDataUnsafe?.user;
-    if (user) {
-      document.getElementById('userName').innerText = `${user.first_name || ''} ${user.last_name || ''}`.trim() || 'طالب مجرتي';
-      document.getElementById('userStatus').innerText = `@${user.username || 'متصل عبر تيليجرام'}`;
-      if (user.photo_url) {
-        document.getElementById('userAvatar').innerHTML = `<img src="${user.photo_url}" alt="Avatar">`;
-      } else {
-        document.getElementById('userAvatar').innerText = (user.first_name || '👤')[0];
-      }
-    }
-  }
-});
-
-// 2. التحكم بالتبويبات
-function switchTab(tabId, el) {
-  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  document.getElementById('view-' + tabId).classList.add('active');
-  el.classList.add('active');
-}
-
-// 3. إدارة جلسات التركيز والمؤقت
-let sessionMinutes = 25;
-let timerInterval = null;
-let secondsRemaining = 0;
-let isTimerRunning = false;
-
-function openStudyModal() {
-  document.getElementById('studyModal').classList.add('active');
-}
-function closeStudyModal() {
-  document.getElementById('studyModal').classList.remove('active');
-}
-
-function selectSessionTime(el, mins) {
-  el.parentElement.querySelectorAll('button').forEach(b => b.classList.remove('active'));
-  el.classList.add('active');
-  sessionMinutes = mins;
-}
-
-function confirmStartTimer() {
-  closeStudyModal();
-  secondsRemaining = sessionMinutes * 60;
-  document.getElementById('activeTimerPanel').style.display = 'block';
-  startTimerLogic();
-}
-
-function startTimerLogic() {
-  if (isTimerRunning) return;
-  isTimerRunning = true;
-  document.getElementById('toggleTimerBtn').innerText = 'إيقاف مؤقت';
-  
-  timerInterval = setInterval(() => {
-    secondsRemaining--;
-    updateTimerText();
-    if (secondsRemaining <= 0) {
-      clearInterval(timerInterval);
-      isTimerRunning = false;
-      alert('🎉 عاش! أكملت جلسة التركيز بنجاح!');
-      stopSession();
-    }
-  }, 1000);
-}
-
-function toggleTimer() {
-  if (isTimerRunning) {
-    clearInterval(timerInterval);
-    isTimerRunning = false;
-    document.getElementById('toggleTimerBtn').innerText = 'استئناف';
-  } else {
-    startTimerLogic();
-  }
-}
-
-function stopSession() {
-  clearInterval(timerInterval);
-  isTimerRunning = false;
-  document.getElementById('activeTimerPanel').style.display = 'none';
-}
-
-function updateTimerText() {
-  let m = Math.floor(secondsRemaining / 60);
-  let s = secondsRemaining % 60;
-  document.getElementById('timerCount').innerText = 
-    `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-}
-
-// 4. منطق اختيار الفصول والأسئلة (مولد الامتحانات)
-function toggleChapter(el) {
-  el.classList.toggle('selected');
-}
-
-function selectAllChapters(status) {
-  document.querySelectorAll('.chapter-item').forEach(item => {
-    if (status) item.classList.add('selected');
-    else item.classList.remove('selected');
-  });
-}
-
-function setExamOption(el, type) {
-  el.parentElement.querySelectorAll('button').forEach(b => b.classList.remove('active'));
-  el.classList.add('active');
-}
-
-function createExamPaper() {
-  const selected = document.querySelectorAll('.chapter-item.selected');
-  if (selected.length === 0) {
-    alert('يرجى اختيار فصل دراسي واحد على الأقل أولاً!');
-    return;
-  }
-  alert(`تم إنشاء ورقة الامتحان بنجاح لـ (${selected.length}) فصول مختارة!`);
-}
-
-// 5. إنشاء التحديات
-function generateChallengeCode() {
-  const count = document.getElementById('studentsCount').value;
-  const roomCode = 'MAJARATI-' + Math.floor(1000 + Math.random() * 9000);
-  alert(`تم إنشاء غرفة التحدي لـ ${count} طلاب!\nرمز الانضمام: ${roomCode}`);
-}
-</script>
-</body>
-</html>
+  background: var(--accent-green); color: #
