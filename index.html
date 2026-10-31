@@ -196,733 +196,380 @@ body {
   background: var(--accent-green); color: #000;
   width: 24px; height: 24px; border-radius: 50%;
   display: inline-flex; justify-content: center; align-items: center;
-  font-weight: 700; font-size:
- 
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#090b10">
-<title>BATMAN PRO</title>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap');
+  font-weight: 700; font-size: 12px; margin-left: 8px;
+}
+.chapter-item {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12px; background: rgba(255,255,255,0.02);
+  border-radius: 10px; margin-bottom: 8px; border: 1px solid transparent;
+  cursor: pointer; transition: 0.2s;
+}
+.chapter-item.selected { border-color: var(--accent-green); background: rgba(16,185,129,0.06); }
+.chapter-checkbox {
+  width: 18px; height: 18px; border-radius: 4px; border: 2px solid var(--text-dim);
+  display: flex; justify-content: center; align-items: center; font-size: 12px;
+}
+.chapter-item.selected .chapter-checkbox { background: var(--accent-green); border-color: var(--accent-green); color: #000; }
 
-:root{
- --bg:#090b10;--surface:#10141c;--surface2:#151b25;
- --surface3:#1b2330;--line:#242d3b;--blue:#477ff5;
- --blue2:#285fd1;--white:#f5f7fc;--muted:#8994a6;
- --green:#54c69a;--gold:#d7b879;
+.chip-group { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+
+/* 3. شريط التنقل السفلي */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  max-width: 480px;
+  background: var(--panel-bg);
+  border-top: 1px solid var(--panel-border);
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0;
+  z-index: 100;
 }
-*{box-sizing:border-box}
-body{
- margin:0;background:var(--bg);color:var(--white);
- font-family:'IBM Plex Sans Arabic',sans-serif;
- min-height:100vh;
+
+.nav-item {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  color: var(--text-dim); font-size: 11px; cursor: pointer; background: none; border: none; width: 25%;
 }
-button,input,textarea{font:inherit}
-button{cursor:pointer}
-button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
-.layout{min-height:100vh}
-.sidebar{
- position:fixed;right:0;top:0;bottom:0;width:255px;
- background:#0d1118;border-left:1px solid var(--line);
- padding:27px 19px;display:flex;flex-direction:column;z-index:10;
+.nav-item.active { color: var(--accent-green); }
+.nav-item svg { width: 22px; height: 22px; fill: currentColor; }
+
+/* Modal Settings */
+.modal {
+  display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(8px); z-index: 200; align-items: flex-end; justify-content: center;
 }
-.brand{display:flex;align-items:center;gap:12px;padding:0 5px 37px}
-.brand-mark{
- width:43px;height:43px;border-radius:13px;
- display:grid;place-items:center;background:linear-gradient(145deg,#5b91ff,#2454bd);
- box-shadow:0 8px 25px #326de944;color:white;font-size:24px;font-weight:700;
+.modal.active { display: flex; }
+.modal-content {
+  background: var(--panel-bg); width: 100%; max-width: 480px;
+  border-radius: 24px 24px 0 0; padding: 20px; border-top: 1px solid var(--panel-border);
+  max-height: 85vh; overflow-y: auto;
 }
-.brand-name{font-size:19px;font-weight:700;letter-spacing:1.3px}
-.brand-name span{display:block;font-size:9px;color:#8290a7;letter-spacing:3px;font-weight:500}
-.nav-label{color:#657186;font-size:10px;padding:0 12px 12px}
-.nav-btn{
- display:flex;align-items:center;gap:13px;width:100%;border:0;
- padding:12px 13px;border-radius:10px;background:transparent;
- color:#9ca8b9;text-align:right;font-size:12px;margin:3px 0;
- transition:.2s;
-}
-.nav-btn:hover{background:#182131;color:white}
-.nav-btn.active{background:linear-gradient(100deg,#1b2c49,#172237);color:#fff;box-shadow:inset -2px 0 var(--blue)}
-.nav-icon{width:21px;height:21px;display:grid;place-items:center;color:inherit}
-.nav-icon svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-.sidebar-footer{margin-top:auto;border-top:1px solid var(--line);padding-top:17px}
-.mini-profile{display:flex;align-items:center;gap:11px;padding:5px}
-.avatar{
- width:39px;height:39px;border-radius:12px;display:grid;place-items:center;
- background:linear-gradient(145deg,#243b60,#17243a);color:#a9c9ff;font-weight:700;
-}
-.mini-profile strong{font-size:11px;display:block}
-.mini-profile small{font-size:9px;color:var(--muted)}
-.main{margin-right:255px;padding:29px 38px 55px;max-width:1600px}
-.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px}
-.eyebrow{font-size:10px;color:var(--muted)}
-.welcome{font-size:23px;font-weight:700;margin:3px 0 0}
-.top-actions{display:flex;align-items:center;gap:10px}
-.date-pill,.icon-button{
- background:var(--surface);border:1px solid var(--line);color:#b9c4d4;
- border-radius:10px;padding:10px 13px;font-size:11px;
-}
-.icon-button{width:40px;height:40px;padding:0;font-size:16px}
-.page{display:none;animation:appear .3s ease}
-.page.active{display:block}
-@keyframes appear{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
-.hero{
- position:relative;overflow:hidden;border:1px solid #293d5c;
- border-radius:19px;padding:27px 29px;
- background:linear-gradient(110deg,#172944 0%,#142238 48%,#111923 100%);
- min-height:195px;display:flex;align-items:center;justify-content:space-between;
-}
-.hero:before{
- content:"";position:absolute;width:290px;height:290px;border-radius:50%;
- background:#477ff5;filter:blur(100px);opacity:.15;left:8%;top:-150px;
-}
-.hero-content{position:relative;z-index:1}
-.hero-tag{font-size:10px;color:#a9c9ff;letter-spacing:1px}
-.hero h2{font-size:23px;margin:9px 0 5px}
-.hero p{font-size:11px;color:#b5c3d8;margin:0}
-.hero button{margin-top:19px;background:#477ff5;color:white;border:0;border-radius:9px;padding:10px 18px;font-size:11px;font-weight:600}
-.hero-emblem{
- width:115px;height:115px;border-radius:50%;border:1px solid #5276a855;
- display:grid;place-items:center;position:relative;margin-left:3%;
- background:radial-gradient(circle,#29487555,#18263b33 65%,transparent 66%);
-}
-.hero-emblem span{font-size:51px;color:#a6c7ff;text-shadow:0 0 25px #6098ff88}
-.section-head{display:flex;justify-content:space-between;align-items:center;margin:27px 0 14px}
-.section-head h3{font-size:14px;margin:0;font-weight:600}
-.section-head p{font-size:10px;color:var(--muted);margin:4px 0 0}
-.section-link{border:0;background:none;color:#83adff;font-size:10px}
-.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}
-.stat{
- background:var(--surface);border:1px solid var(--line);
- border-radius:14px;padding:16px 17px;min-height:111px;
-}
-.stat-top{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:10px}
-.stat-icon{
- width:32px;height:32px;border-radius:10px;background:#1b2b43;
- display:grid;place-items:center;color:#8eb5ff;font-size:15px;
-}
-.stat strong{display:block;font-size:24px;font-weight:600;margin-top:9px;line-height:1.3}
-.stat small{color:#718096;font-size:9px}
-.dashboard-grid{display:grid;grid-template-columns:1.35fr 1fr;gap:15px;margin-top:17px}
-.panel{background:var(--surface);border:1px solid var(--line);border-radius:15px;padding:19px;min-width:0}
-.panel-heading{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}
-.panel-heading strong{font-size:12px;font-weight:600}
-.panel-heading small{font-size:9px;color:var(--muted)}
-.task-row{display:flex;align-items:center;gap:11px;padding:12px 0;border-bottom:1px solid #202833}
-.task-row:last-child{border-bottom:0}
-.task-check{accent-color:var(--blue);width:16px;height:16px}
-.task-info{flex:1;min-width:0}
-.task-info b{font-size:11px;display:block;overflow:hidden;text-overflow:ellipsis}
-.task-info small{font-size:9px;color:var(--muted)}
-.task-row.done .task-info b{text-decoration:line-through;color:#718096}
-.delete{border:0;background:transparent;color:#758197;font-size:17px}
-.empty{text-align:center;padding:24px 10px;color:#778398;font-size:11px}
-.progress-wrap{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin:17px 0 9px}
-.progress{height:6px;border-radius:9px;background:#252f3d;overflow:hidden}
-.progress div{height:100%;width:0;background:linear-gradient(90deg,#3268d4,#75a6ff);border-radius:9px;transition:.3s}
-.quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-.quick{
- background:#141b26;border:1px solid #263143;border-radius:11px;
- padding:13px;text-align:right;color:white;transition:.2s;
-}
-.quick:hover{border-color:#456cae;transform:translateY(-2px)}
-.quick-icon{font-size:19px;color:#8fb6ff;display:block;margin-bottom:7px}
-.quick b{display:block;font-size:10px}
-.quick small{font-size:9px;color:var(--muted)}
-.page-banner{padding:20px 0 18px}
-.page-banner h2{font-size:21px;margin:0 0 5px}
-.page-banner p{font-size:11px;color:var(--muted);margin:0}
-.workspace{background:var(--surface);border:1px solid var(--line);border-radius:15px;padding:20px}
-.field{width:100%;background:#0c1119;border:1px solid #283342;border-radius:9px;color:white;padding:12px;font-size:11px;outline:none}
-.field:focus{border-color:#477ff5}
-.form-row{display:flex;gap:9px;margin-bottom:17px}
-.primary{border:0;border-radius:9px;background:var(--blue);color:white;padding:10px 17px;font-size:11px;font-weight:600;white-space:nowrap}
-.primary:hover{background:#326bdc}
-.note-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:15px}
-.note-card{background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:15px;min-height:120px}
-.note-card h4{font-size:12px;margin:0 0 9px}
-.note-card p{font-size:10px;color:#aab5c4;white-space:pre-wrap;overflow-wrap:anywhere}
-.timer-panel{text-align:center;padding:35px 15px}
-.timer-label{font-size:11px;color:var(--muted)}
-.timer-display{font-size:66px;font-weight:600;direction:ltr;letter-spacing:2px;margin:8px 0 18px}
-.timer-actions{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin:10px 0}
-.timer-actions button{border:1px solid var(--line);background:var(--surface2);color:#d6dfeb;border-radius:9px;padding:10px 16px;font-size:11px}
-.timer-actions .primary{background:var(--blue);border:0}
-.profile-card{text-align:center;padding:35px}
-.profile-card .avatar{width:76px;height:76px;margin:auto;border-radius:22px;font-size:25px}
-.profile-card h2{font-size:18px;margin:13px 0 2px}
-.profile-card p{font-size:10px;color:var(--muted)}
-.toast{position:fixed;bottom:25px;left:50%;transform:translateX(-50%);background:#1c2b40;border:1px solid #3a5274;color:white;padding:11px 17px;border-radius:10px;font-size:11px;opacity:0;transition:.2s;pointer-events:none;z-index:30}
-.toast.show{opacity:1}
-.bottom-nav{display:none}
-@media(max-width:1000px){
- .sidebar{width:220px}.main{margin-right:220px;padding:25px 22px}
- .stats{grid-template-columns:repeat(2,1fr)}
-}
-@media(max-width:650px){
- .sidebar{display:none}
- .main{margin:0;padding:21px 15px 100px}
- .topbar{margin-bottom:21px}
- .welcome{font-size:19px}
- .date-pill{display:none}
- .hero{padding:21px 19px;min-height:175px}
- .hero h2{font-size:19px}
- .hero p{max-width:230px;line-height:1.8}
- .hero-emblem{width:73px;height:73px;flex-shrink:0}
- .hero-emblem span{font-size:34px}
- .stats{gap:9px}
- .stat{padding:13px;min-height:100px}
- .stat strong{font-size:21px}
- .dashboard-grid{grid-template-columns:1fr;gap:12px}
- .note-grid{grid-template-columns:1fr 1fr}
- .bottom-nav{
-  display:flex;position:fixed;right:0;left:0;bottom:0;z-index:15;
-  justify-content:space-around;background:#0d121b;
-  border-top:1px solid var(--line);
-  padding:8px 3px calc(8px + env(safe-area-inset-bottom));
- }
- .bottom-nav .nav-btn{width:auto;display:flex;flex-direction:column;gap:3px;padding:5px 8px;margin:0;font-size:9px;text-align:center}
- .bottom-nav .nav-icon{width:auto}
- .bottom-nav .nav-btn.active{background:transparent;box-shadow:none;color:#8bb5ff}
- .timer-display{font-size:52px}
-}
-@media(max-width:370px){.hero-emblem{display:none}.note-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<div class="layout">
-<aside class="sidebar">
- <div class="brand">
-  <div class="brand-mark">B</div>
-  <div class="brand-name">BATMAN<span>PERSONAL SPACE</span></div>
- </div>
- <div class="nav-label">مساحة العمل</div>
-<nav id="desktopNav">
-  <button class="nav-btn active" data-page="home"><span class="nav-icon">⌂</span>الرئيسية</button>
-  <button class="nav-btn" data-page="subjects"><span class="nav-icon">📚</span>المواد الدراسية</button>
-  <button class="nav-btn" data-page="tasks"><span class="nav-icon">☷</span>المهام اليومية</button>
-  <button class="nav-btn" data-page="notes"><span class="nav-icon">▤</span>الملاحظات</button>
-  <button class="nav-btn" data-page="timer"><span class="nav-icon">◷</span>جلسة التركيز</button>
-  <button class="nav-btn" data-page="profile"><span class="nav-icon">♙</span>الملف الشخصي</button>
-</nav>
- <div class="sidebar-footer">
-  <div class="mini-profile"><div class="avatar">B</div><div><strong>مساحة باتمان</strong><small>نسخة تجريبية</small></div></div>
- </div>
-</aside>
 
-<main class="main">
- <header class="topbar">
-  <div>
-   <div class="eyebrow" id="today"></div>
-   <h1 class="welcome" id="welcome">أهلاً بك في مساحتك 👋</h1>
-  </div>
-  <div class="top-actions">
-   <span class="date-pill">BATMAN PRO</span>
-   <button class="icon-button" onclick="go('profile')" aria-label="الملف الشخصي">♙</button>
-  </div>
- </header>
-
- <section class="page active" id="home">
-  <div class="hero">
-   <div class="hero-content">
-    <div class="hero-tag">YOUR PERSONAL PRODUCTIVITY SPACE</div>
-    <h2>كل إنجاز يبدأ بخطوة.</h2>
-    <p>نظّم وقتك، رتّب أفكارك، واصنع تقدّمك كل يوم.</p>
-    <button onclick="go('tasks')">ابدأ تنظيم يومك ←</button>
-   </div>
-   <div class="hero-emblem"><span>✦</span></div>
-  </div>
-
-  <div class="section-head"><div><h3>ملخص نشاطك</h3><p>نظرة سريعة على تقدّمك</p></div></div>
-  <div class="stats">
-   <div class="stat"><div class="stat-top"><span>إجمالي المهام</span><span class="stat-icon">☷</span></div><strong id="totalTasks">0</strong><small>مهمة في قائمتك</small></div>
-   <div class="stat"><div class="stat-top"><span>المكتمل</span><span class="stat-icon">✓</span></div><strong id="doneTasks">0</strong><small>إنجاز تم تحقيقه</small></div>
-   <div class="stat"><div class="stat-top"><span>رصيد النقاط</span><span class="stat-icon">✦</span></div><strong id="points">0</strong><small>نقطة مكتسبة</small></div>
-   <div class="stat"><div class="stat-top"><span>الملاحظات</span><span class="stat-icon">▤</span></div><strong id="totalNotes">0</strong><small>ملاحظة محفوظة</small></div>
-  </div>
-
-  <div class="dashboard-grid">
-   <div class="panel">
-    <div class="panel-heading"><strong>قائمة المهام</strong><button class="section-link" onclick="go('tasks')">عرض الكل ←</button></div>
-    <div id="homeTasks"></div>
-    <div class="progress-wrap"><span>نسبة إنجاز المهام</span><b id="percent">0%</b></div>
-    <div class="progress"><div id="progressBar"></div></div>
-   </div>
-   <div class="panel">
-    <div class="panel-heading"><strong>اختصارات سريعة</strong><small>أدواتك اليومية</small></div>
-    <div class="quick-grid">
-     <button class="quick" onclick="go('tasks')"><span class="quick-icon">＋</span><b>إضافة مهمة</b><small>خطط لخطوتك القادمة</small></button>
-     <button class="quick" onclick="go('notes')"><span class="quick-icon">▤</span><b>ملاحظة جديدة</b><small>احفظ أفكارك</small></button>
-     <button class="quick" onclick="go('timer')"><span class="quick-icon">◷</span><b>جلسة تركيز</b><small>ابدأ وقتك الآن</small></button>
-     <button class="quick" onclick="go('profile')"><span class="quick-icon">♙</span><b>ملفي الشخصي</b><small>راجع إنجازاتك</small></button>
+<div class="app-container">
+  <!-- رأس الصفحة (مرتبط تلقائياً ببيانات حساب تيليجرام) -->
+  <header class="top-header">
+    <div class="user-profile-sm">
+      <div class="avatar" id="userAvatar">👤</div>
+      <div class="user-info">
+        <h4 id="userName">طالب مجرتي</h4>
+        <p id="userStatus">جاهز للدراسة</p>
+      </div>
     </div>
-   </div>
-  </div>
- </section>
-<section class="page" id="subjects">
-  <div class="page-banner">
-    <h2>المواد الدراسية</h2>
-    <p>تابع فصولك ومهامك ونسبة إنجازك في كل مادة.</p>
-  </div>
+    <div class="header-badges">
+      <div class="badge">⭐ <span id="userStars">0</span></div>
+      <div class="badge">🔥 <span id="userStreak">1 يوم</span></div>
+    </div>
+  </header>
 
-  <div class="workspace">
-    <div class="form-row">
-      <input id="subjectInput" class="field" placeholder="اكتب اسم المادة الجديدة">
-      <button class="primary" onclick="addSubject()">＋ إضافة مادة</button>
+  <!-- 1. قسم الدراسة والتركيز -->
+  <main id="view-study" class="view active">
+    <div class="session-hero card">
+      <div style="font-size: 36px; margin-bottom: 8px;">🚀</div>
+      <h2>ابدأ جلسة تركيز جديدة</h2>
+      <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px; margin-bottom: 14px;">اختر نظام الوقت وتابع إنجازك اليومي</p>
+      <button class="btn-primary" onclick="openStudyModal()">► إعداد الجلسة وبدء التركيز</button>
     </div>
 
-    <div id="subjectsList"></div>
-  </div>
-</section>
- <section class="page" id="tasks">
-  <div class="page-banner"><h2>المهام اليومية</h2><p>حوّل خططك إلى خطوات واضحة قابلة للإنجاز.</p></div>
-  <div class="workspace">
-   <div class="form-row"><input id="taskInput" class="field" placeholder="ما الذي تريد إنجازه؟"><button class="primary" onclick="addTask()">＋ إضافة مهمة</button></div>
-   <div id="allTasks"></div>
-  </div>
- </section>
+    <!-- لوحة المؤقت النشط عند بدء الجلسة -->
+    <div id="activeTimerPanel" class="card" style="display:none; text-align:center;">
+      <h3 id="currentSessionType">وقت التركيز</h3>
+      <div class="timer-circle">
+        <div class="timer-display" id="timerCount">25:00</div>
+        <span style="font-size:11px; color:var(--text-muted); margin-top:4px;" id="timerPhase">مرحلة التركيز</span>
+      </div>
+      <div style="display:flex; gap:10px;">
+        <button class="btn-primary" id="toggleTimerBtn" onclick="toggleTimer()">إيقاف مؤقت</button>
+        <button class="btn-secondary" style="background:#ef4444; color:#fff; border:none; width:50%;" onclick="stopSession()">إنهاء الجلسة</button>
+      </div>
+    </div>
+  </main>
 
- <section class="page" id="notes">
-  <div class="page-banner"><h2>الملاحظات</h2><p>مكان يجمع أفكارك وملاحظاتك في مساحة واحدة.</p></div>
-  <div class="workspace">
-   <input id="noteTitle" class="field" placeholder="عنوان الملاحظة">
-   <textarea id="noteBody" class="field" style="margin-top:10px;min-height:115px" placeholder="اكتب أفكارك هنا..."></textarea>
-   <button class="primary" style="margin-top:10px" onclick="addNote()">حفظ الملاحظة</button>
-  </div>
-  <div class="note-grid" id="notesGrid"></div>
- </section>
+  <!-- 2. قسم مولد الاسئلة والامتحانات (طابق الصور 100%) -->
+  <main id="view-exams" class="view">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+      <div>
+        <h3>أنشئ أسئلة شهرية</h3>
+        <p style="font-size:11px; color:var(--text-muted);">الأحياء • السادس الإعدادي</p>
+      </div>
+    </div>
 
- <section class="page" id="timer">
-  <div class="page-banner"><h2>جلسة التركيز</h2><p>خصص وقتاً لنفسك وامنح هدفك كامل انتباهك.</p></div>
-  <div class="workspace timer-panel">
-   <div class="timer-label">وقت الجلسة الحالية</div>
-   <div class="timer-display" id="timerDisplay">25:00</div>
-   <div class="timer-actions">
-    <button class="primary" onclick="startTimer()">ابدأ التركيز</button>
-    <button onclick="pauseTimer()">إيقاف مؤقت</button>
-    <button onclick="resetTimer()">إعادة</button>
-   </div>
-   <div class="timer-actions">
-    <button onclick="setTimer(25)">25 دقيقة</button>
-    <button onclick="setTimer(50)">50 دقيقة</button>
-    <button onclick="setTimer(60)">60 دقيقة</button>
-   </div>
-  </div>
- </section>
+    <!-- الخطوة 1: اختيار الفصول -->
+    <div class="card step-card">
+      <div class="section-title">
+        <div><span class="step-num">1</span> اختر الفصول</div>
+        <div style="display:flex; gap:6px;">
+          <button class="btn-secondary" style="padding:3px 8px; font-size:11px;" onclick="selectAllChapters(true)">تحديد الكل</button>
+          <button class="btn-secondary" style="padding:3px 8px; font-size:11px;" onclick="selectAllChapters(false)">إلغاء التحديد</button>
+        </div>
+      </div>
+      
+      <div id="chaptersContainer">
+        <div class="chapter-item" onclick="toggleChapter(this)" data-questions="1319">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div class="chapter-checkbox">✓</div>
+            <span>الفصل 1: الخلية</span>
+          </div>
+          <span style="font-size:12px; color:var(--text-dim);">1319</span>
+        </div>
+        <div class="chapter-item" onclick="toggleChapter(this)" data-questions="1447">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div class="chapter-checkbox">✓</div>
+            <span>الفصل 2: الأنسجة</span>
+          </div>
+          <span style="font-size:12px; color:var(--text-dim);">1447</span>
+        </div>
+        <div class="chapter-item" onclick="toggleChapter(this)" data-questions="1966">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div class="chapter-checkbox">✓</div>
+            <span>الفصل 3: التكاثر</span>
+          </div>
+          <span style="font-size:12px; color:var(--text-dim);">1966</span>
+        </div>
+        <div class="chapter-item" onclick="toggleChapter(this)" data-questions="292">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div class="chapter-checkbox">✓</div>
+            <span>الفصل 4: التكوين الجنيني</span>
+          </div>
+          <span style="font-size:12px; color:var(--text-dim);">292</span>
+        </div>
+        <div class="chapter-item" onclick="toggleChapter(this)" data-questions="750">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div class="chapter-checkbox">✓</div>
+            <span>الفصل 5: الوراثة</span>
+          </div>
+          <span style="font-size:12px; color:var(--text-dim);">750</span>
+        </div>
+      </div>
+    </div>
 
- <section class="page" id="profile">
-  <div class="page-banner"><h2>ملفي الشخصي</h2><p>مساحتك الخاصة وتفاصيل نشاطك.</p></div>
-  <div class="workspace profile-card">
-   <div class="avatar">B</div>
-   <h2>مستخدم باتمان</h2>
-   <p>رحلتك تبدأ من هنا · BATMAN PRO</p>
-   <div class="stats" style="margin-top:25px">
-    <div class="stat"><strong id="profilePoints">0</strong><small>النقاط</small></div>
-    <div class="stat"><strong id="profileDone">0</strong><small>المهام المكتملة</small></div>
-   </div>
-  </div>
- </section>
-</main>
+    <!-- الخطوة 2: مدة الامتحان -->
+    <div class="card step-card">
+      <div class="section-title">
+        <div><span class="step-num">2</span> مدة الامتحان</div>
+      </div>
+      <div class="chip-group" id="durationGroup">
+        <button class="btn-secondary active" onclick="setExamOption(this, 'duration')">بدون مدة</button>
+        <button class="btn-secondary" onclick="setExamOption(this, 'duration')">نصف ساعة</button>
+        <button class="btn-secondary" onclick="setExamOption(this, 'duration')">ساعة</button>
+        <button class="btn-secondary" onclick="setExamOption(this, 'duration')">ساعة ونصف</button>
+        <button class="btn-secondary" onclick="setExamOption(this, 'duration')">ساعتان</button>
+      </div>
+    </div>
+
+    <!-- الخطوة 3: صيغة الورقة -->
+    <div class="card step-card">
+      <div class="section-title">
+        <div><span class="step-num">3</span> صيغة الورقة</div>
+        <span style="font-size:11px; color:var(--accent-green);">تلقائية • 100 درجة</span>
+      </div>
+      <p style="font-size:12px; color:var(--text-muted); line-height:1.6;">الترتيب التلقائي على نمط امتحانات الأحياء الحقيقية:<br>س1: تعريف ×3 (10) + عدّد / اذكر (10)</p>
+    </div>
+
+    <button class="btn-primary" onclick="createExamPaper()">✦ أنشئ الاختبار</button>
+  </main>
+
+  <!-- 3. قسم تحدي الأصدقاء -->
+  <main id="view-challenges" class="view">
+    <h3 style="margin-bottom: 14px;">تحدي الأصدقاء ⚔️</h3>
+    <div class="card" style="text-align:center;">
+      <div style="background: rgba(245,158,11,0.1); color:var(--gold); padding:8px; border-radius:10px; font-size:12px; margin-bottom:14px;">
+        🏆 الفائز +10 نجمة • الخاسر -2 نجمة
+      </div>
+      <p style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">أنشئ غرفة تحدي تنافسية على ساعات الدراسة وشاركها عبر البوت</p>
+      
+      <div style="margin: 15px 0; text-align:right;">
+        <label style="font-size:12px; color:var(--text-muted);">عدد الطلاب المشاركين:</label>
+        <input type="range" id="studentsCount" min="2" max="8" value="4" style="width:100%; margin:8px 0;" oninput="document.getElementById('countVal').innerText = this.value + ' طلاب'">
+        <div style="font-size:12px; color:var(--accent-green);" id="countVal">4 طلاب</div>
+      </div>
+
+      <button class="btn-primary" onclick="generateChallengeCode()">🚀 ابدأ التحدي الآن</button>
+    </div>
+  </main>
+
+  <!-- 4. قسم الأوائل -->
+  <main id="view-leaderboard" class="view">
+    <h3 style="margin-bottom: 14px;">لوحة الترتيب العام 🏆</h3>
+    <div class="card" id="leaderboardList">
+      <p style="font-size:12px; color:var(--text-muted); text-align:center;">يتم تحديث الترتيب تلقائياً حسب ساعات الدراسة المسجلة.</p>
+    </div>
+  </main>
+
+  <!-- شريط التنقل السفلي -->
+  <nav class="bottom-nav">
+    <button class="nav-item active" onclick="switchTab('study', this)">
+      <svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+      الدراسة
+    </button>
+    <button class="nav-item" onclick="switchTab('exams', this)">
+      <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+      اختبرني
+    </button>
+    <button class="nav-item" onclick="switchTab('challenges', this)">
+      <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3z"/></svg>
+      التحديات
+    </button>
+    <button class="nav-item" onclick="switchTab('leaderboard', this)">
+      <svg viewBox="0 0 24 24"><path d="M7 17h2v-7H7v7zm4 0h2V7h-2v10zm4 0h2v-4h-2v4zM19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+      الأوائل
+    </button>
+  </nav>
 </div>
 
-<nav class="bottom-nav" id="mobileNav">
- <button class="nav-btn active" data-page="home"><span class="nav-icon">⌂</span>الرئيسية</button>
- <button class="nav-btn" data-page="subjects"><span class="nav-icon">📚</span>المواد</button>
- <button class="nav-btn" data-page="tasks"><span class="nav-icon">☷</span>المهام</button>
- <button class="nav-btn" data-page="notes"><span class="nav-icon">▤</span>ملاحظات</button>
- <button class="nav-btn" data-page="timer"><span class="nav-icon">◷</span>التركيز</button>
- <button class="nav-btn" data-page="profile"><span class="nav-icon">♙</span>حسابي</button>
-</nav>
-<div class="toast" id="toast"></div>
+<!-- Modal إعداد جلسة الدراسة (مطابق للصورة 5) -->
+<div class="modal" id="studyModal">
+  <div class="modal-content">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+      <h3>جلسة جديدة</h3>
+      <button class="btn-secondary" style="padding:4px 10px;" onclick="closeStudyModal()">✕</button>
+    </div>
+    
+    <div style="margin-bottom:16px;">
+      <label style="font-size:12px; color:var(--text-muted); display:block; margin-bottom:8px;">مدة الجلسة:</label>
+      <div class="chip-group">
+        <button class="btn-secondary active" onclick="selectSessionTime(this, 25)">25 دقيقة</button>
+        <button class="btn-secondary" onclick="selectSessionTime(this, 50)">50 دقيقة</button>
+        <button class="btn-secondary" onclick="selectSessionTime(this, 60)">ساعة كاملة</button>
+      </div>
+    </div>
+
+    <button class="btn-primary" onclick="confirmStartTimer()">► بدء الجلسة</button>
+  </div>
+</div>
 
 <script>
-const $=id=>document.getElementById(id);
-let tasks=JSON.parse(localStorage.getItem('batman_tasks')||'[]');
-let notes=JSON.parse(localStorage.getItem('batman_notes')||'[]');
-let points=Number(localStorage.getItem('batman_points')||0);
-let remaining=1500,interval=null;
+// 1. Telegram WebApp Integration (الربط التلقائي الحقيقي مع تيليجرام)
+const tg = window.Telegram?.WebApp;
 
-function go(page){
- document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
- $(page).classList.add('active');
- document.querySelectorAll('.nav-btn').forEach(x=>x.classList.toggle('active',x.dataset.page===page));
- window.scrollTo({top:0,behavior:'smooth'});
-}
-document.querySelectorAll('.nav-btn').forEach(b=>b.addEventListener('click',()=>go(b.dataset.page)));
-function toast(message){
- $('toast').textContent=message;$('toast').classList.add('show');
- setTimeout(()=>$('toast').classList.remove('show'),2200);
-}
-function escapeHTML(s){
- return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-}
-function save(){
- localStorage.setItem('batman_tasks',JSON.stringify(tasks));
- localStorage.setItem('batman_notes',JSON.stringify(notes));
- localStorage.setItem('batman_points',points);
- render();
-}
-function addTask(){
- const v=$('taskInput').value.trim();
- if(!v)return toast('اكتب المهمة أولاً');
- tasks.unshift({id:Date.now(),title:v,done:false});
- $('taskInput').value='';save();toast('تمت إضافة المهمة');
-}
-$('taskInput').addEventListener('keydown',e=>{if(e.key==='Enter')addTask()});
-function toggleTask(id){
- const t=tasks.find(x=>x.id===id);if(!t)return;
- t.done=!t.done;points+=t.done?10:-10;save();
-}
-function deleteTask(id){tasks=tasks.filter(x=>x.id!==id);save()}
-function taskHTML(t){
- return `<div class="task-row ${t.done?'done':''}">
- <input class="task-check" type="checkbox" ${t.done?'checked':''} onchange="toggleTask(${t.id})">
- <div class="task-info"><b>${escapeHTML(t.title)}</b><small>${t.done?'مكتملة':'بانتظار الإنجاز'}</small></div>
- <button class="delete" onclick="deleteTask(${t.id})">×</button></div>`;
-}
-function addNote(){
- const title=$('noteTitle').value.trim(),body=$('noteBody').value.trim();
- if(!title&&!body)return toast('اكتب شيئاً قبل الحفظ');
- notes.unshift({id:Date.now(),title:title||'ملاحظة جديدة',body});
- $('noteTitle').value='';$('noteBody').value='';save();toast('تم حفظ الملاحظة');
-}
-function deleteNote(id){notes=notes.filter(x=>x.id!==id);save()}
-function render(){
- const done=tasks.filter(x=>x.done).length,total=tasks.length;
- $('totalTasks').textContent=total;$('doneTasks').textContent=done;
- $('points').textContent=points;$('totalNotes').textContent=notes.length;
- $('profilePoints').textContent=points;$('profileDone').textContent=done;
- $('percent').textContent=(total?Math.round(done/total*100):0)+'%';
- $('progressBar').style.width=(total?done/total*100:0)+'%';
- $('homeTasks').innerHTML=tasks.length?tasks.slice(0,5).map(taskHTML).join(''):'<div class="empty">مساحتك جاهزة لأول إنجاز ✦</div>';
- $('allTasks').innerHTML=tasks.length?tasks.map(taskHTML).join(''):'<div class="empty">لا توجد مهام حالياً. أضف أول مهمة لك.</div>';
- $('notesGrid').innerHTML=notes.length?notes.map(n=>`<article class="note-card"><div style="display:flex;justify-content:space-between;gap:8px"><h4>${escapeHTML(n.title)}</h4><button class="delete" onclick="deleteNote(${n.id})">×</button></div><p>${escapeHTML(n.body)}</p></article>`).join(''):'<div class="empty">لا توجد ملاحظات محفوظة.</div>';
-}
-function showTimer(){
- $('timerDisplay').textContent=String(Math.floor(remaining/60)).padStart(2,'0')+':'+String(remaining%60).padStart(2,'0');
-}
-function setTimer(m){pauseTimer();remaining=m*60;showTimer()}
-function startTimer(){
- if(interval)return;
- interval=setInterval(()=>{
-  if(remaining>0){remaining--;showTimer()}
-  else{pauseTimer();toast('انتهت جلسة التركيز. أحسنت!')}
- },1000);
-}
-function pauseTimer(){if(interval){clearInterval(interval);interval=null}}
-function resetTimer(){pauseTimer();remaining=1500;showTimer()}
-$('today').textContent=new Intl.DateTimeFormat('ar-IQ',{weekday:'long',day:'numeric',month:'long'}).format(new Date());
- render();showTimer();
-// ===== BATMAN PRO SUBJECTS SYSTEM =====
+window.addEventListener('DOMContentLoaded', () => {
+  if (tg) {
+    tg.ready();
+    tg.expand(); // توسيع الصفحة داخل تيليجرام بالكامل
+    
+    // جلب بيانات المستخدم الحقيقية من تيليجرام
+    const user = tg.initDataUnsafe?.user;
+    if (user) {
+      document.getElementById('userName').innerText = `${user.first_name || ''} ${user.last_name || ''}`.trim() || 'طالب مجرتي';
+      document.getElementById('userStatus').innerText = `@${user.username || 'متصل عبر تيليجرام'}`;
+      if (user.photo_url) {
+        document.getElementById('userAvatar').innerHTML = `<img src="${user.photo_url}" alt="Avatar">`;
+      } else {
+        document.getElementById('userAvatar').innerText = (user.first_name || '👤')[0];
+      }
+    }
+  }
+});
 
-let subjects = JSON.parse(localStorage.getItem('batman_subjects') || 'null') || [
- {id:1,name:'الرياضيات'},
- {id:2,name:'الفيزياء'},
- {id:3,name:'الكيمياء'},
- {id:4,name:'الأحياء'},
- {id:5,name:'اللغة العربية'},
- {id:6,name:'اللغة الإنكليزية'},
- {id:7,name:'التربية الإسلامية'}
-];
-
-let subjectTasks = JSON.parse(localStorage.getItem('batman_subject_tasks') || '{}');
-
-function saveSubjects(){
- localStorage.setItem('batman_subjects',JSON.stringify(subjects));
- localStorage.setItem('batman_subject_tasks',JSON.stringify(subjectTasks));
+// 2. التحكم بالتبويبات
+function switchTab(tabId, el) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('view-' + tabId).classList.add('active');
+  el.classList.add('active');
 }
 
-function renderSubjects(){
- const box=$('subjectsList');
- if(!box)return;
+// 3. إدارة جلسات التركيز والمؤقت
+let sessionMinutes = 25;
+let timerInterval = null;
+let secondsRemaining = 0;
+let isTimerRunning = false;
 
- box.innerHTML=subjects.map(s=>{
-  const list=subjectTasks[s.id]||[];
-  const done=list.filter(t=>t.done).length;
-  const percent=list.length?Math.round(done/list.length*100):0;
-
-  return `
-   <div class="workspace" style="margin-top:14px">
-    <h3>${escapeHTML(s.name)}</h3>
-    <p>المهام: ${done} من ${list.length} · الإنجاز ${percent}%</p>
-    <div style="height:8px;background:#252b36;border-radius:8px;overflow:hidden">
-     <div style="height:100%;width:${percent}%;background:#367cff"></div>
-    </div>
-    <div class="form-row" style="margin-top:12px">
-     <button class="primary" onclick="openSubject(${s.id})">فتح المادة</button>
-     <button class="primary" onclick="renameSubject(${s.id})">تعديل</button>
-     <button class="primary" onclick="deleteSubject(${s.id})">حذف</button>
-    </div>
-   </div>`;
- }).join('');
+function openStudyModal() {
+  document.getElementById('studyModal').classList.add('active');
+}
+function closeStudyModal() {
+  document.getElementById('studyModal').classList.remove('active');
 }
 
-function addSubject(){
- const input=$('subjectInput');
- const name=input.value.trim();
- if(!name)return toast('اكتب اسم المادة أولاً');
- subjects.push({id:Date.now(),name});
- input.value='';
- saveSubjects();
- renderSubjects();
- toast('تمت إضافة المادة');
+function selectSessionTime(el, mins) {
+  el.parentElement.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  sessionMinutes = mins;
 }
 
-function renameSubject(id){
- const s=subjects.find(x=>x.id===id);
- if(!s)return;
- const name=prompt('اكتب الاسم الجديد للمادة',s.name);
- if(name===null||!name.trim())return;
- s.name=name.trim();
- saveSubjects();
- renderSubjects();
- toast('تم تعديل المادة');
+function confirmStartTimer() {
+  closeStudyModal();
+  secondsRemaining = sessionMinutes * 60;
+  document.getElementById('activeTimerPanel').style.display = 'block';
+  startTimerLogic();
 }
 
-function deleteSubject(id){
- const s=subjects.find(x=>x.id===id);
- if(!s)return;
- if(!confirm('هل تريد حذف المادة ومهامها؟'))return;
- subjects=subjects.filter(x=>x.id!==id);
- delete subjectTasks[id];
- saveSubjects();
- renderSubjects();
- toast('تم حذف المادة');
+function startTimerLogic() {
+  if (isTimerRunning) return;
+  isTimerRunning = true;
+  document.getElementById('toggleTimerBtn').innerText = 'إيقاف مؤقت';
+  
+  timerInterval = setInterval(() => {
+    secondsRemaining--;
+    updateTimerText();
+    if (secondsRemaining <= 0) {
+      clearInterval(timerInterval);
+      isTimerRunning = false;
+      alert('🎉 عاش! أكملت جلسة التركيز بنجاح!');
+      stopSession();
+    }
+  }, 1000);
 }
 
-function openSubject(id){
- const s=subjects.find(x=>x.id===id);
- if(!s)return;
-
- const list=subjectTasks[id]||[];
- const done=list.filter(t=>t.done).length;
- const percent=list.length?Math.round(done/list.length*100):0;
-
- const box=$('subjectsList');
-
- box.innerHTML=`
-  <div class="page-banner">
-   <h2>${escapeHTML(s.name)}</h2>
-   <p>ملفك الدراسي الخاص بهذه المادة</p>
-  </div>
-
-  <div class="workspace" style="margin-top:15px">
-   <h3>إنجاز المادة</h3>
-   <p>${done} من ${list.length} مهام مكتملة — ${percent}%</p>
-   <div style="height:9px;background:#252b36;border-radius:9px;overflow:hidden">
-    <div style="height:100%;width:${percent}%;background:#367cff"></div>
-   </div>
-
-   <div class="form-row" style="margin-top:18px">
-    <input id="newSubjectTask" class="field" placeholder="اكتب مهمة أو محاضرة جديدة">
-    <button class="primary" onclick="addSubjectTask(${id})">＋ إضافة</button>
-   </div>
-
-   <div id="subjectTaskList" style="margin-top:15px">
-    ${list.length?list.map((t,i)=>`
-     <div class="workspace" style="margin:8px 0">
-      <label style="display:flex;align-items:center;gap:10px">
-       <input type="checkbox" ${t.done?'checked':''} onchange="toggleSubjectTask(${id},${i})">
-       <span>${escapeHTML(t.title)}</span>
-      </label>
-      <button class="primary" style="margin-top:8px" onclick="deleteSubjectTask(${id},${i})">حذف</button>
-     </div>
-    `).join(''):'<p>لا توجد مهام بعد. أضف أول مهمة دراسية.</p>'}
-   </div>
-
-   <button class="primary" style="margin-top:15px" onclick="renderSubjects()">رجوع إلى المواد</button>
-  </div>
- `;
+function toggleTimer() {
+  if (isTimerRunning) {
+    clearInterval(timerInterval);
+    isTimerRunning = false;
+    document.getElementById('toggleTimerBtn').innerText = 'استئناف';
+  } else {
+    startTimerLogic();
+  }
 }
 
-function addSubjectTask(id){
- const input=$('newSubjectTask');
- const title=input.value.trim();
- if(!title)return toast('اكتب اسم المهمة');
- subjectTasks[id]=subjectTasks[id]||[];
- subjectTasks[id].push({title,done:false});
- saveSubjects();
- openSubject(id);
- toast('تمت إضافة المهمة');
+function stopSession() {
+  clearInterval(timerInterval);
+  isTimerRunning = false;
+  document.getElementById('activeTimerPanel').style.display = 'none';
 }
 
-function toggleSubjectTask(id,index){
- subjectTasks[id][index].done=!subjectTasks[id][index].done;
- saveSubjects();
- openSubject(id);
+function updateTimerText() {
+  let m = Math.floor(secondsRemaining / 60);
+  let s = secondsRemaining % 60;
+  document.getElementById('timerCount').innerText = 
+    `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
 }
 
-function deleteSubjectTask(id,index){
- if(!confirm('هل تريد حذف هذه المهمة؟'))return;
- subjectTasks[id].splice(index,1);
- saveSubjects();
- openSubject(id);
+// 4. منطق اختيار الفصول والأسئلة (مولد الامتحانات)
+function toggleChapter(el) {
+  el.classList.toggle('selected');
 }
 
-function escapeHTML(value){
- return String(value).replace(/[&<>"']/g,c=>({
-  '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
- }[c]));
-}
-saveSubjects();
-renderSubjects();
-// ===== BATMAN PRO BOOKS =====
-
-const batmanBooks = {
-  'الرياضيات': [
-    {title:'كتاب الرياضيات', id:'1y7yy1W2ZYBNX37i8Yv-bvumovr7HKLJG'}
-  ],
-  'الفيزياء': [
-    {title:'كتاب الفيزياء', id:'1x-23yaX6LLW1kwntBkMXXGnsgAM-t2gq'}
-  ],
-  'الكيمياء': [
-    {title:'كتاب الكيمياء', id:'1-ydG-1nuXLpVRU9TCz-sdWanEbgDy0Oa'}
-  ],
-  'الأحياء': [
-    {title:'كتاب الأحياء', id:'1EF8bbc4PHhZVr_IwTLuO5OZ-Mp6BTR6J'}
-  ],
-  'اللغة العربية': [
-    {title:'الجزء الأول', id:'1JaClvU6gBmESwflsGkFdf-GOeci033FE'},
-    {title:'الجزء الثاني', id:'1L5wMeRCZ_2TbGKr7BHEWRsuKhhwpkx33'}
-  ],
-  'اللغة الإنكليزية': [
-    {title:'كتاب الإنكليزي', id:'1VLYe9W5ZuWPrpuBdP8XrztxQR4iLluzz'},
-    {title:'نشاط الإنكليزي', id:'15KE_5e1LkzeAdThBlGxPSUurDcLaClI3'}
-  ],
-  'التربية الإسلامية': [
-    {title:'كتاب الإسلامية', id:'1-z0O9A0JEBSanG9KZEk2M8MzmGiepTd8'}
-  ]
-};
-
-const oldOpenSubject = openSubject;
-
-openSubject = function(id) {
-  oldOpenSubject(id);
-
-  const subject = subjects.find(s => s.id === id);
-  if (!subject) return;
-
-  const books = batmanBooks[subject.name];
-  if (!books) return;
-
-  const box = $('subjectsList');
-
-  box.insertAdjacentHTML('beforeend', `
-    <div class="workspace" style="margin-top:15px">
-      <h3>📚 الكتب المنهجية</h3>
-      <p>كتب المادة الرسمية</p>
-
-      ${books.map(book => `
-        <div class="workspace" style="margin-top:12px">
-          <h3>${book.title}</h3>
-          <a
-            href="https://drive.google.com/file/d/${book.id}/preview"
-            target="_blank"
-            rel="noopener"
-            class="primary"
-            style="display:inline-block;text-decoration:none;margin-top:8px"
-          >فتح الكتاب</a>
-        </div>
-      `).join('')}
-    </div>
-  `);
-};
-// ===== BATMAN PRO CHAPTERS SYSTEM =====
-
-let subjectChapters = JSON.parse(
-  localStorage.getItem('batman_subject_chapters') || '{}'
-);
-
-function saveChapters(){
-  localStorage.setItem(
-    'batman_subject_chapters',
-    JSON.stringify(subjectChapters)
-  );
+function selectAllChapters(status) {
+  document.querySelectorAll('.chapter-item').forEach(item => {
+    if (status) item.classList.add('selected');
+    else item.classList.remove('selected');
+  });
 }
 
-const previousOpenSubject = openSubject;
-
-openSubject = function(id){
-  previousOpenSubject(id);
-
-  const subject = subjects.find(s => s.id === id);
-  if(!subject) return;
-
-  subjectChapters[id] = subjectChapters[id] || [];
-
-  const box = $('subjectsList');
-
-  const chapters = subjectChapters[id];
-  const done = chapters.filter(c => c.done).length;
-  const percent = chapters.length
-    ? Math.round(done / chapters.length * 100)
-    : 0;
-
-  box.insertAdjacentHTML('beforeend', `
-    <div class="workspace" style="margin-top:15px">
-      <h3>📖 فصول المنهج</h3>
-      <p>إنجاز الفصول: ${done} من ${chapters.length} — ${percent}%</p>
-
-      <div style="height:8px;background:#252b36;border-radius:8px;overflow:hidden">
-        <div style="height:100%;width:${percent}%;background:#367cff"></div>
-      </div>
-
-      <div class="form-row" style="margin-top:14px">
-        <input id="chapterName" class="field" placeholder="مثلاً: الفصل الأول">
-        <button class="primary" onclick="addChapter(${id})">＋ إضافة فصل</button>
-      </div>
-
-      <div style="margin-top:14px">
-        ${chapters.length ? chapters.map((c,i) => `
-          <div class="workspace" style="margin-top:8px">
-            <label style="display:flex;gap:10px;align-items:center">
-              <input type="checkbox" ${c.done ? 'checked' : ''}
-                onchange="toggleChapter(${id},${i})">
-              <span>${escapeHTML(c.name)}</span>
-            </label>
-            <button class="primary" style="margin-top:8px"
-              onclick="deleteChapter(${id},${i})">حذف الفصل</button>
-          </div>
-        `).join('') : '<p>لم تضف فصولاً بعد.</p>'}
-      </div>
-    </div>
-  `);
-};
-
-function addChapter(id){
-  const input = $('chapterName');
-  const name = input.value.trim();
-
-  if(!name) return toast('اكتب اسم الفصل أولاً');
-
-  subjectChapters[id] = subjectChapters[id] || [];
-  subjectChapters[id].push({name,done:false});
-
-  saveChapters();
-  openSubject(id);
+function setExamOption(el, type) {
+  el.parentElement.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
 }
 
-function toggleChapter(id,index){
-  subjectChapters[id][index].done =
-    !subjectChapters[id][index].done;
-
-  saveChapters();
-  openSubject(id);
+function createExamPaper() {
+  const selected = document.querySelectorAll('.chapter-item.selected');
+  if (selected.length === 0) {
+    alert('يرجى اختيار فصل دراسي واحد على الأقل أولاً!');
+    return;
+  }
+  alert(`تم إنشاء ورقة الامتحان بنجاح لـ (${selected.length}) فصول مختارة!`);
 }
 
-function deleteChapter(id,index){
-  if(!confirm('هل تريد حذف هذا الفصل؟')) return;
-
-  subjectChapters[id].splice(index,1);
-
-  saveChapters();
-  openSubject(id);
+// 5. إنشاء التحديات
+function generateChallengeCode() {
+  const count = document.getElementById('studentsCount').value;
+  const roomCode = 'MAJARATI-' + Math.floor(1000 + Math.random() * 9000);
+  alert(`تم إنشاء غرفة التحدي لـ ${count} طلاب!\nرمز الانضمام: ${roomCode}`);
 }
-
-saveChapters();
 </script>
 </body>
 </html>
