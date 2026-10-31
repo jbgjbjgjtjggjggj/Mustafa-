@@ -631,6 +631,99 @@ openSubject = function(id) {
     </div>
   `);
 };
+// ===== BATMAN PRO CHAPTERS SYSTEM =====
+
+let subjectChapters = JSON.parse(
+  localStorage.getItem('batman_subject_chapters') || '{}'
+);
+
+function saveChapters(){
+  localStorage.setItem(
+    'batman_subject_chapters',
+    JSON.stringify(subjectChapters)
+  );
+}
+
+const previousOpenSubject = openSubject;
+
+openSubject = function(id){
+  previousOpenSubject(id);
+
+  const subject = subjects.find(s => s.id === id);
+  if(!subject) return;
+
+  subjectChapters[id] = subjectChapters[id] || [];
+
+  const box = $('subjectsList');
+
+  const chapters = subjectChapters[id];
+  const done = chapters.filter(c => c.done).length;
+  const percent = chapters.length
+    ? Math.round(done / chapters.length * 100)
+    : 0;
+
+  box.insertAdjacentHTML('beforeend', `
+    <div class="workspace" style="margin-top:15px">
+      <h3>📖 فصول المنهج</h3>
+      <p>إنجاز الفصول: ${done} من ${chapters.length} — ${percent}%</p>
+
+      <div style="height:8px;background:#252b36;border-radius:8px;overflow:hidden">
+        <div style="height:100%;width:${percent}%;background:#367cff"></div>
+      </div>
+
+      <div class="form-row" style="margin-top:14px">
+        <input id="chapterName" class="field" placeholder="مثلاً: الفصل الأول">
+        <button class="primary" onclick="addChapter(${id})">＋ إضافة فصل</button>
+      </div>
+
+      <div style="margin-top:14px">
+        ${chapters.length ? chapters.map((c,i) => `
+          <div class="workspace" style="margin-top:8px">
+            <label style="display:flex;gap:10px;align-items:center">
+              <input type="checkbox" ${c.done ? 'checked' : ''}
+                onchange="toggleChapter(${id},${i})">
+              <span>${escapeHTML(c.name)}</span>
+            </label>
+            <button class="primary" style="margin-top:8px"
+              onclick="deleteChapter(${id},${i})">حذف الفصل</button>
+          </div>
+        `).join('') : '<p>لم تضف فصولاً بعد.</p>'}
+      </div>
+    </div>
+  `);
+};
+
+function addChapter(id){
+  const input = $('chapterName');
+  const name = input.value.trim();
+
+  if(!name) return toast('اكتب اسم الفصل أولاً');
+
+  subjectChapters[id] = subjectChapters[id] || [];
+  subjectChapters[id].push({name,done:false});
+
+  saveChapters();
+  openSubject(id);
+}
+
+function toggleChapter(id,index){
+  subjectChapters[id][index].done =
+    !subjectChapters[id][index].done;
+
+  saveChapters();
+  openSubject(id);
+}
+
+function deleteChapter(id,index){
+  if(!confirm('هل تريد حذف هذا الفصل؟')) return;
+
+  subjectChapters[id].splice(index,1);
+
+  saveChapters();
+  openSubject(id);
+}
+
+saveChapters();
 </script>
 </body>
 </html>
