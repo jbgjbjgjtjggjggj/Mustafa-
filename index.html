@@ -497,20 +497,70 @@ function deleteSubject(id){
 function openSubject(id){
  const s=subjects.find(x=>x.id===id);
  if(!s)return;
+
  const list=subjectTasks[id]||[];
- const text=list.map((t,i)=>(i+1)+'. '+(t.done?'✓ ':'○ ')+t.title).join('\n');
- const action=prompt(
-  'مادة: '+s.name+'\n\n'+(text||'لا توجد مهام بعد')+
-  '\n\nاكتب مهمة جديدة لإضافتها، أو اترك الحقل فارغاً.',
-  ''
- );
- if(action&&action.trim()){
-  subjectTasks[id]=subjectTasks[id]||[];
-  subjectTasks[id].push({title:action.trim(),done:false});
-  saveSubjects();
-  renderSubjects();
-  toast('تمت إضافة مهمة للمادة');
- }
+ const done=list.filter(t=>t.done).length;
+ const percent=list.length?Math.round(done/list.length*100):0;
+
+ const box=$('subjectsList');
+
+ box.innerHTML=`
+  <div class="page-banner">
+   <h2>${escapeHTML(s.name)}</h2>
+   <p>ملفك الدراسي الخاص بهذه المادة</p>
+  </div>
+
+  <div class="workspace" style="margin-top:15px">
+   <h3>إنجاز المادة</h3>
+   <p>${done} من ${list.length} مهام مكتملة — ${percent}%</p>
+   <div style="height:9px;background:#252b36;border-radius:9px;overflow:hidden">
+    <div style="height:100%;width:${percent}%;background:#367cff"></div>
+   </div>
+
+   <div class="form-row" style="margin-top:18px">
+    <input id="newSubjectTask" class="field" placeholder="اكتب مهمة أو محاضرة جديدة">
+    <button class="primary" onclick="addSubjectTask(${id})">＋ إضافة</button>
+   </div>
+
+   <div id="subjectTaskList" style="margin-top:15px">
+    ${list.length?list.map((t,i)=>`
+     <div class="workspace" style="margin:8px 0">
+      <label style="display:flex;align-items:center;gap:10px">
+       <input type="checkbox" ${t.done?'checked':''} onchange="toggleSubjectTask(${id},${i})">
+       <span>${escapeHTML(t.title)}</span>
+      </label>
+      <button class="primary" style="margin-top:8px" onclick="deleteSubjectTask(${id},${i})">حذف</button>
+     </div>
+    `).join(''):'<p>لا توجد مهام بعد. أضف أول مهمة دراسية.</p>'}
+   </div>
+
+   <button class="primary" style="margin-top:15px" onclick="renderSubjects()">رجوع إلى المواد</button>
+  </div>
+ `;
+}
+
+function addSubjectTask(id){
+ const input=$('newSubjectTask');
+ const title=input.value.trim();
+ if(!title)return toast('اكتب اسم المهمة');
+ subjectTasks[id]=subjectTasks[id]||[];
+ subjectTasks[id].push({title,done:false});
+ saveSubjects();
+ openSubject(id);
+ toast('تمت إضافة المهمة');
+}
+
+function toggleSubjectTask(id,index){
+ subjectTasks[id][index].done=!subjectTasks[id][index].done;
+ saveSubjects();
+ openSubject(id);
+}
+
+function deleteSubjectTask(id,index){
+ if(!confirm('هل تريد حذف هذه المهمة؟'))return;
+ subjectTasks[id].splice(index,1);
+ saveSubjects();
+ openSubject(id);
 }
 
 function escapeHTML(value){
