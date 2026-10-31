@@ -1,4 +1,203 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>مجرتي PRO | تطبيق الطلاب المتكامل</title>
+<!-- Telegram WebApp SDK للربط المباشر مع حسابات تيليجرام -->
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-dark: #080c14;
+  --panel-bg: #0f1724;
+  --panel-border: #1b2638;
+  --accent-green: #10b981;
+  --accent-green-hover: #059669;
+  --accent-blue: #2563eb;
+  --text-main: #f3f4f6;
+  --text-muted: #9ca3af;
+  --text-dim: #4b5563;
+  --gold: #f59e0b;
+}
 
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Tajawal', sans-serif;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.app-container {
+  width: 100%;
+  max-width: 480px;
+  background: #0a111c;
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 50px rgba(0,0,0,0.9);
+  padding-bottom: 75px;
+}
+
+/* Header */
+.top-header {
+  padding: 14px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(15, 23, 36, 0.95);
+  backdrop-filter: blur(12px);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  border-bottom: 1px solid var(--panel-border);
+}
+
+.user-profile-sm {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid var(--accent-green);
+  background: #1a2536;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  overflow: hidden;
+  color: var(--accent-green);
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.user-info h4 { font-size: 14px; font-weight: 700; }
+.user-info p { font-size: 11px; color: var(--text-muted); }
+
+.header-badges { display: flex; gap: 6px; }
+.badge {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  padding: 4px 8px;
+  border-radius: 20px;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Views Setup */
+.view {
+  display: none;
+  padding: 16px;
+  animation: fadeIn 0.2s ease-in-out;
+}
+.view.active { display: block; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.card {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 14px;
+}
+
+.btn-primary {
+  width: 100%;
+  background: var(--accent-green);
+  color: #fff;
+  border: none;
+  padding: 13px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  transition: 0.2s;
+}
+
+.btn-primary:active { transform: scale(0.98); background: var(--accent-green-hover); }
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--panel-border);
+  color: var(--text-main);
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-size: 12px;
+  cursor: pointer;
+}
+.btn-secondary.active { background: var(--accent-green); border-color: var(--accent-green); color: #fff; }
+
+.section-title {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* 1. قسم الدراسة والمؤقت */
+.session-hero {
+  text-align: center;
+  padding: 22px 14px;
+  background: linear-gradient(180deg, rgba(16,185,129,0.08) 0%, rgba(15,23,36,0) 100%);
+  border-radius: 20px;
+  border: 1px solid rgba(16,185,129,0.2);
+  margin-bottom: 16px;
+}
+
+.timer-circle {
+  width: 190px;
+  height: 190px;
+  border-radius: 50%;
+  border: 8px solid var(--panel-border);
+  border-top-color: var(--accent-green);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 16px auto;
+}
+
+.timer-display { font-size: 38px; font-weight: 800; font-family: monospace; }
+
+/* 2. قسم الامتحانات والأسئلة الشهري (مطابق للصور) */
+.step-card { position: relative; margin-bottom: 14px; }
+.step-num {
+  background: var(--accent-green); color: #000;
+  width: 24px; height: 24px; border-radius: 50%;
+  display: inline-flex; justify-content: center; align-items: center;
+  font-weight: 700; font-size:
+ 
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
