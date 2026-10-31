@@ -570,7 +570,67 @@ function escapeHTML(value){
 }
 saveSubjects();
 renderSubjects();
+// ===== BATMAN PRO BOOKS =====
 
+const batmanBooks = {
+  'الرياضيات': [
+    {title:'كتاب الرياضيات', id:'1y7yy1W2ZYBNX37i8Yv-bvumovr7HKLJG'}
+  ],
+  'الفيزياء': [
+    {title:'كتاب الفيزياء', id:'1x-23yaX6LLW1kwntBkMXXGnsgAM-t2gq'}
+  ],
+  'الكيمياء': [
+    {title:'كتاب الكيمياء', id:'1-ydG-1nuXLpVRU9TCz-sdWanEbgDy0Oa'}
+  ],
+  'الأحياء': [
+    {title:'كتاب الأحياء', id:'1EF8bbc4PHhZVr_IwTLuO5OZ-Mp6BTR6J'}
+  ],
+  'اللغة العربية': [
+    {title:'الجزء الأول', id:'1JaClvU6gBmESwflsGkFdf-GOeci033FE'},
+    {title:'الجزء الثاني', id:'1L5wMeRCZ_2TbGKr7BHEWRsuKhhwpkx33'}
+  ],
+  'اللغة الإنكليزية': [
+    {title:'كتاب الإنكليزي', id:'1VLYe9W5ZuWPrpuBdP8XrztxQR4iLluzz'},
+    {title:'نشاط الإنكليزي', id:'15KE_5e1LkzeAdThBlGxPSUurDcLaClI3'}
+  ],
+  'التربية الإسلامية': [
+    {title:'كتاب الإسلامية', id:'1-z0O9A0JEBSanG9KZEk2M8MzmGiepTd8'}
+  ]
+};
+
+const oldOpenSubject = openSubject;
+
+openSubject = function(id) {
+  oldOpenSubject(id);
+
+  const subject = subjects.find(s => s.id === id);
+  if (!subject) return;
+
+  const books = batmanBooks[subject.name];
+  if (!books) return;
+
+  const box = $('subjectsList');
+
+  box.insertAdjacentHTML('beforeend', `
+    <div class="workspace" style="margin-top:15px">
+      <h3>📚 الكتب المنهجية</h3>
+      <p>كتب المادة الرسمية</p>
+
+      ${books.map(book => `
+        <div class="workspace" style="margin-top:12px">
+          <h3>${book.title}</h3>
+          <a
+            href="https://drive.google.com/file/d/${book.id}/preview"
+            target="_blank"
+            rel="noopener"
+            class="primary"
+            style="display:inline-block;text-decoration:none;margin-top:8px"
+          >فتح الكتاب</a>
+        </div>
+      `).join('')}
+    </div>
+  `);
+};
 </script>
 </body>
 </html>
